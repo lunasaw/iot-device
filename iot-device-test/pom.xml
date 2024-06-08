@@ -19,7 +19,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <luna-common.version>2.6.0</luna-common.version>
         <spring-boot.version>2.7.18</spring-boot.version>
+        <aliyun.iot.client.sdk.version>1.2.3.8</aliyun.iot.client.sdk.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>aliyunmavensnapshot</id>
+            <name>aliyun maven snapshot</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -33,6 +47,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun.alink.linksdk</groupId>
+                <artifactId>lp-iot-linkkit-java</artifactId>
+                <version>${aliyun.iot.client.sdk.version}</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -64,6 +84,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun.alink.linksdk</groupId>
+            <artifactId>lp-iot-linkkit-java</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

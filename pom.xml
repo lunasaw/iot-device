@@ -21,8 +21,22 @@
         <httpclient5.version>5.2.1</httpclient5.version>
         <github.username>lunasaw</github.username>
         <app.profiles>${project.name}</app.profiles>
-        <project-starter.version>1.0.0</project-starter.version>
+        <aliyun.iot.client.sdk.version>1.2.3.8</aliyun.iot.client.sdk.version>
+        <iot.client.version>1.0.0</iot.client.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>aliyunmavensnapshot</id>
+            <name>aliyun maven snapshot</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 
     <developers>
         <developer>
@@ -62,6 +76,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.aliyun.alink.linksdk</groupId>
+                <artifactId>lp-iot-linkkit-java</artifactId>
+                <version>${aliyun.iot.client.sdk.version}</version>
+                <scope>compile</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -87,6 +107,11 @@
             <artifactId>luna-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun.alink.linksdk</groupId>
+            <artifactId>lp-iot-linkkit-java</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 
