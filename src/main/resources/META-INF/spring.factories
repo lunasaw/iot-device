@@ -1,2 +1,2 @@
 #org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#io.github.lunasaw.app.config.ZlmAutoConfiguration
+#io.github.lunasaw.iot.config.ZlmAutoConfiguration

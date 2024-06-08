@@ -15,7 +15,7 @@ project-starter
 
 <dependency>
     <groupId>io.github.lunasaw</groupId>
-    <artifactId>project-starter</artifactId>
+    <artifactId>iot-device</artifactId>
     <version>${last.version}</version>
 </dependency>
 ```

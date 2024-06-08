@@ -3,6 +3,6 @@ spring:
     active: dev
 
 logging:
-  config: classpath:log/logback.xml
+  config: classpath:log/logback-spring.xml
   level:
     root: INFO
