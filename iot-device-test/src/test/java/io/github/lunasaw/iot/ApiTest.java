@@ -1,4 +1,4 @@
-package io.github.lunasaw.iot.test;
+package io.github.lunasaw.iot;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package io.github.lunasaw.iot.test;
+package io.github.lunasaw.iot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

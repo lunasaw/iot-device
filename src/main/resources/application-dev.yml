@@ -1,6 +1,7 @@
-zlm:
-  nodes:
-    - server-id: zlm
-      host: "http://127.0.0.1:9092"
-      secret: zlm
-      enabled: true
+iot:
+  # 使用环境变量配置，避免泄漏 -Diot.productKey=xxx -Diot.productSecret=xxx
+  product-key: k1f4kl0qmEU
+  product-secret: 664f57b42bffcfbf3f76e7393475263d
+  device-name: luna_camera
+  mqtt-host-url: ssl://${iot.iot-instance-id}.mqtt.iothub.aliyuncs.com:8883
+  iot-instance-id: iot-06z00f1einee6ko

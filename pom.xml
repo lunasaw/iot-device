@@ -25,7 +25,7 @@
         <iot.client.version>1.0.0</iot.client.version>
     </properties>
 
-    <repositories>
+    <repositories>K
         <repository>
             <id>aliyunmaven</id>
             <name>aliyun maven</name>
