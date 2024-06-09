@@ -4,18 +4,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.tmp.api.MapInputParams;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
+import com.aliyun.alink.linksdk.tmp.devicemodel.Service;
 import com.aliyun.alink.linksdk.tmp.listener.ITResRequestHandler;
 import com.aliyun.alink.linksdk.tmp.listener.ITResResponseCallback;
 import com.aliyun.alink.linksdk.tmp.utils.ErrorInfo;
 import com.aliyun.alink.linksdk.tools.AError;
-import com.aliyun.alink.linksdk.tools.ALog;
 import com.google.common.collect.Lists;
 
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
@@ -30,8 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class IotResRequestHandler implements ITResRequestHandler {
 
-    private static final String   TAG        = "ThingSample";
-    private final static String   CONNECT_ID = "LINK_PERSISTENT";
     @Autowired
     private List<IdentifyHandler> identifyHandlers;
 
@@ -48,7 +48,6 @@ public class IotResRequestHandler implements ITResRequestHandler {
                     if (execute != null) {
                         listResult.add(execute);
                     }
-                    break;
                 }
             }
 
@@ -79,12 +78,26 @@ public class IotResRequestHandler implements ITResRequestHandler {
     }
 
     public void onSuccess(Object o, OutputParams outputParams) {
-        ALog.d(TAG, "onSuccess() called with: o = [" + o + "], outputParams = [" + outputParams + "]");
-        ALog.d(TAG, "注册服务成功");
+        log.info("onSuccess::o = {}, outputParams = {}", o, outputParams);
     }
 
     public void onFail(Object o, ErrorInfo errorInfo) {
-        ALog.d(TAG, "onFail() called with: o = [" + o + "], errorInfo = [" + errorInfo + "]");
-        ALog.d(TAG, "注册服务失败");
+        log.info("onFail::o = {}, errorInfo = {}", o, errorInfo);
+    }
+
+    public void setServiceHandler() {
+        // 基础命令处理
+        List<Service> services = LinkKit.getInstance().getDeviceThing().getServices();
+        for (Service service : services) {
+            LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), this);
+        }
+
+        // 自定义命令处理
+        for (IdentifyHandler identifyHandler : identifyHandlers) {
+            String identify = identifyHandler.getIdentify();
+            if (StringUtils.isNoneBlank(identify)) {
+                LinkKit.getInstance().getDeviceThing().setServiceHandler(identify, this);
+            }
+        }
     }
 }

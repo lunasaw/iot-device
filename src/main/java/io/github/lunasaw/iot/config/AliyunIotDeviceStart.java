@@ -1,13 +1,9 @@
 package io.github.lunasaw.iot.config;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.aliyun.alink.linksdk.tmp.devicemodel.Service;
-import com.aliyun.alink.linksdk.tools.ALog;
 import io.github.lunasaw.iot.handler.IotResRequestHandler;
-import io.github.lunasaw.iot.listener.IotConnectNotifyListener;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,7 +12,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson2.JSON;
 import com.aliyun.alink.dm.api.DeviceInfo;
 import com.aliyun.alink.dm.api.InitResult;
 import com.aliyun.alink.linkkit.api.ILinkKitConnectListener;
@@ -50,6 +45,9 @@ public class AliyunIotDeviceStart implements InitializingBean {
 
     @Autowired
     private IMqttActionListener iMqttActionListener;
+
+    @Autowired
+    private IotResRequestHandler iotResRequestHandler;
 
     public AliyunIotDeviceStart(AliyunIotConfig aliyunIotConfig) {
         this.aliyunIotConfig = aliyunIotConfig;
@@ -115,24 +113,9 @@ public class AliyunIotDeviceStart implements InitializingBean {
 
             @Override
             public void onInitDone(InitResult initResult) {
-                setServiceHandler();
+                iotResRequestHandler.setServiceHandler();
             }
         });
-    }
-
-    @Autowired
-    private IotResRequestHandler     resRequestHandler;
-
-    /**
-     * 设备端接收服务端的属性下发和服务下发的消息，并作出反馈
-     */
-    public void setServiceHandler() {
-        ALog.d("TAG", "setServiceHandler() called");
-        List<Service> srviceList = LinkKit.getInstance().getDeviceThing().getServices();
-        for (int i = 0; srviceList != null && i < srviceList.size(); i++) {
-            Service service = srviceList.get(i);
-            LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), resRequestHandler);
-        }
     }
 
     @Override

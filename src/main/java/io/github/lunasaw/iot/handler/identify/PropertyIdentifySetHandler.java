@@ -2,6 +2,7 @@ package io.github.lunasaw.iot.handler.identify;
 
 import java.util.Map;
 
+import com.alibaba.fastjson2.JSON;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 public class PropertyIdentifySetHandler implements IdentifyHandler {
 
     @Override
+    public String getIdentify() {
+        return IotDeviceConstant.Identify.SERVICE_SET;
+    }
+
+    @Override
     public OutputParams execute(IdentifyMessageDTO identifyMessageDTO) {
-        log.info("初始化属性值的地方::execute::identifyMessageDTO = {}", identifyMessageDTO);
+        log.info("设置属性值的地方::execute::identifyMessageDTO = {}", JSON.toJSONString(identifyMessageDTO));
         Map<String, ValueWrapper> wrapperMap = identifyMessageDTO.getData();
         ValueWrapper lightSwitch = wrapperMap.get("LightSwitch");
         return null;
@@ -32,7 +38,7 @@ public class PropertyIdentifySetHandler implements IdentifyHandler {
         if (identifyMessageDTO == null) {
             return false;
         }
-        if (IotDeviceConstant.Identify.SERVICE_GET.equals(identifyMessageDTO.getIdentify())) {
+        if (IotDeviceConstant.Identify.SERVICE_SET.equals(identifyMessageDTO.getIdentify())) {
             return true;
         }
         return false;

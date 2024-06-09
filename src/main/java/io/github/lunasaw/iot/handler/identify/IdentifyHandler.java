@@ -1,6 +1,7 @@
 package io.github.lunasaw.iot.handler.identify;
 
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
+
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
 
 /**
@@ -10,6 +11,9 @@ import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
  * @date 2024/6/9
  */
 public interface IdentifyHandler {
+
+    String getIdentify();
+
     /**
      * 消息处理
      *
