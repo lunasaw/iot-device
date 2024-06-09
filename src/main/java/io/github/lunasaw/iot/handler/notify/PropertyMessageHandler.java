@@ -1,7 +1,6 @@
-package io.github.lunasaw.iot.handler.notify.handler;
+package io.github.lunasaw.iot.handler.notify;
 
 import io.github.lunasaw.iot.domain.NotifyMessageDTO;
-import io.github.lunasaw.iot.handler.notify.MessageNotifyHandler;
 import org.springframework.stereotype.Component;
 
 /**

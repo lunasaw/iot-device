@@ -2,6 +2,8 @@ package io.github.lunasaw.iot.listener;
 
 import java.util.List;
 
+import com.aliyun.alink.linkkit.api.LinkKit;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-public class IotConnectNotifyListener implements IConnectNotifyListener {
+public class IotConnectNotifyListener implements IConnectNotifyListener, InitializingBean {
 
     @Autowired
     private List<MessageNotifyHandler> messageNotifyHandlerList;
@@ -45,4 +47,10 @@ public class IotConnectNotifyListener implements IConnectNotifyListener {
     }
 
     public void onConnectStateChange(String s, ConnectState connectState) {}
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("afterPropertiesSet::registerOnNotifyListener");
+        LinkKit.getInstance().registerOnNotifyListener(this);
+    }
 }

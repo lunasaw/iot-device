@@ -123,9 +123,6 @@ public class AliyunIotDeviceStart implements InitializingBean {
     @Autowired
     private IotResRequestHandler     resRequestHandler;
 
-    @Autowired
-    private IotConnectNotifyListener iotConnectNotifyListener;
-
     /**
      * 设备端接收服务端的属性下发和服务下发的消息，并作出反馈
      */
@@ -136,7 +133,6 @@ public class AliyunIotDeviceStart implements InitializingBean {
             Service service = srviceList.get(i);
             LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), resRequestHandler);
         }
-        LinkKit.getInstance().registerOnNotifyListener(iotConnectNotifyListener);
     }
 
     @Override

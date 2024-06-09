@@ -3,6 +3,8 @@ package io.github.lunasaw.iot.handler.notify;
 import io.github.lunasaw.iot.domain.NotifyMessageDTO;
 
 /**
+ * 消息入口
+ * 
  * @author luna
  * @date 2024/6/9
  */
