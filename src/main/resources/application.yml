@@ -1,8 +1,15 @@
 spring:
+  application:
+    name: iot-device
   profiles:
     active: dev
+
+
+  main:
+    allow-circular-references: true
 
 logging:
   config: classpath:log/logback-spring.xml
   level:
     root: INFO
+

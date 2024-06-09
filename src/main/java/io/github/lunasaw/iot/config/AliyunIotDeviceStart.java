@@ -3,6 +3,7 @@ package io.github.lunasaw.iot.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.github.lunasaw.iot.handler.IotResRequestHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,7 +12,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson2.JSON;
 import com.aliyun.alink.dm.api.DeviceInfo;
 import com.aliyun.alink.dm.api.InitResult;
 import com.aliyun.alink.linkkit.api.ILinkKitConnectListener;
@@ -45,6 +45,9 @@ public class AliyunIotDeviceStart implements InitializingBean {
 
     @Autowired
     private IMqttActionListener iMqttActionListener;
+
+    @Autowired
+    private IotResRequestHandler iotResRequestHandler;
 
     public AliyunIotDeviceStart(AliyunIotConfig aliyunIotConfig) {
         this.aliyunIotConfig = aliyunIotConfig;
@@ -110,7 +113,7 @@ public class AliyunIotDeviceStart implements InitializingBean {
 
             @Override
             public void onInitDone(InitResult initResult) {
-                log.info("onInitDone::initResult = {}", JSON.toJSONString(initResult));
+                iotResRequestHandler.setServiceHandler();
             }
         });
     }

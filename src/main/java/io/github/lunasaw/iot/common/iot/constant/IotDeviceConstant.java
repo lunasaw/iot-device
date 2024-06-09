@@ -13,4 +13,8 @@ public interface IotDeviceConstant {
         String FIRMWARE_VERSION = "1.0.2";
     }
 
+    interface Identify {
+        String SERVICE_SET = "set";
+        String SERVICE_GET = "get";
+    }
 }
