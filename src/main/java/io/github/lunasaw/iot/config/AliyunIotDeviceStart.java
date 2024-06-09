@@ -1,8 +1,13 @@
 package io.github.lunasaw.iot.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.aliyun.alink.linksdk.tmp.devicemodel.Service;
+import com.aliyun.alink.linksdk.tools.ALog;
+import io.github.lunasaw.iot.handler.IotResRequestHandler;
+import io.github.lunasaw.iot.listener.IotConnectNotifyListener;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.springframework.beans.factory.InitializingBean;
@@ -111,8 +116,29 @@ public class AliyunIotDeviceStart implements InitializingBean {
             @Override
             public void onInitDone(InitResult initResult) {
                 log.info("onInitDone::initResult = {}", JSON.toJSONString(initResult));
+                setServiceHandler();
             }
         });
+    }
+
+    @Autowired
+    private IotResRequestHandler     resRequestHandler;
+
+    @Autowired
+    private IotConnectNotifyListener iotConnectNotifyListener;
+
+    /**
+     * 设备端接收服务端的属性下发和服务下发的消息，并作出反馈
+     */
+    public void setServiceHandler() {
+        ALog.d("TAG", "setServiceHandler() called");
+        List<Service> srviceList = LinkKit.getInstance().getDeviceThing().getServices();
+        System.out.println(JSON.toJSONString(srviceList));
+        for (int i = 0; srviceList != null && i < srviceList.size(); i++) {
+            Service service = srviceList.get(i);
+            LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), resRequestHandler);
+        }
+        LinkKit.getInstance().registerOnNotifyListener(iotConnectNotifyListener);
     }
 
     @Override
