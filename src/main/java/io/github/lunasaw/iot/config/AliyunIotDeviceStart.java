@@ -3,7 +3,7 @@ package io.github.lunasaw.iot.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.lunasaw.iot.handler.IotResRequestHandler;
+import io.github.lunasaw.iot.handler.identify.IotResRequestHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.springframework.beans.factory.InitializingBean;

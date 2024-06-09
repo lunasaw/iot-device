@@ -1,9 +1,10 @@
-package io.github.lunasaw.iot.handler.identify;
+package io.github.lunasaw.iot.handler.identify.handler;
 
 import java.util.Map;
 
 import com.alibaba.fastjson2.JSON;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
+import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
 import org.springframework.stereotype.Component;
 
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;

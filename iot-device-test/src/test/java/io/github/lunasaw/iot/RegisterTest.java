@@ -10,7 +10,7 @@ import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.config.AliyunIotConfig;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
-import io.github.lunasaw.iot.handler.publish.LightPublishResourceHandler;
+import io.github.lunasaw.iot.publish.BasicPublishResourceReport;
 
 /**
  * @author luna
@@ -19,10 +19,10 @@ import io.github.lunasaw.iot.handler.publish.LightPublishResourceHandler;
 public class RegisterTest extends ApiTest {
 
     @Autowired
-    private AliyunIotConfig             aliyunIotConfig;
+    private AliyunIotConfig            aliyunIotConfig;
 
     @Autowired
-    private LightPublishResourceHandler lightPublishResourceHandler;
+    private BasicPublishResourceReport publishResourceReport;
 
     @Test
     public void atest() {
@@ -34,7 +34,7 @@ public class RegisterTest extends ApiTest {
         reportData.put(identity, intWrapper);
 
         PublishMessageDTO build = PublishMessageDTO.builder().reportData(reportData).build();
-        lightPublishResourceHandler.publish(build);
+        publishResourceReport.publish(build);
 
         while (true) {
 

@@ -1,4 +1,4 @@
-package io.github.lunasaw.iot.handler;
+package io.github.lunasaw.iot.handler.identify;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,6 @@ import com.aliyun.alink.linksdk.tools.AError;
 import com.google.common.collect.Lists;
 
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
-import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
