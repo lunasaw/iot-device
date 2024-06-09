@@ -1,4 +1,4 @@
-package io.github.lunasaw.iot.listener.handler;
+package io.github.lunasaw.iot.handler.notify;
 
 import io.github.lunasaw.iot.domain.NotifyMessageDTO;
 
@@ -6,7 +6,7 @@ import io.github.lunasaw.iot.domain.NotifyMessageDTO;
  * @author luna
  * @date 2024/6/9
  */
-public interface MessageHander {
+public interface MessageNotifyHandler {
 
     /**
      * 消息处理

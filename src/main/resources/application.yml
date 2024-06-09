@@ -2,7 +2,11 @@ spring:
   profiles:
     active: dev
 
+  main:
+    allow-circular-references: true
+
 logging:
   config: classpath:log/logback-spring.xml
   level:
     root: INFO
+

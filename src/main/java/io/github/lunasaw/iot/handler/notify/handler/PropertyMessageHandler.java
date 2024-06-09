@@ -1,6 +1,7 @@
-package io.github.lunasaw.iot.listener.handler;
+package io.github.lunasaw.iot.handler.notify.handler;
 
 import io.github.lunasaw.iot.domain.NotifyMessageDTO;
+import io.github.lunasaw.iot.handler.notify.MessageNotifyHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @date 2024/6/9
  */
 @Component
-public class PropertyMessageHandler implements MessageHander {
+public class PropertyMessageHandler implements MessageNotifyHandler {
     @Override
     public void execute(NotifyMessageDTO notifyMessageDTO) {
 

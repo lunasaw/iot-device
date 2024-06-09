@@ -115,7 +115,6 @@ public class AliyunIotDeviceStart implements InitializingBean {
 
             @Override
             public void onInitDone(InitResult initResult) {
-                log.info("onInitDone::initResult = {}", JSON.toJSONString(initResult));
                 setServiceHandler();
             }
         });
@@ -133,7 +132,6 @@ public class AliyunIotDeviceStart implements InitializingBean {
     public void setServiceHandler() {
         ALog.d("TAG", "setServiceHandler() called");
         List<Service> srviceList = LinkKit.getInstance().getDeviceThing().getServices();
-        System.out.println(JSON.toJSONString(srviceList));
         for (int i = 0; srviceList != null && i < srviceList.size(); i++) {
             Service service = srviceList.get(i);
             LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), resRequestHandler);

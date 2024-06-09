@@ -10,7 +10,7 @@ import com.aliyun.alink.linksdk.cmp.core.base.ConnectState;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectNotifyListener;
 
 import io.github.lunasaw.iot.domain.NotifyMessageDTO;
-import io.github.lunasaw.iot.listener.handler.MessageHander;
+import io.github.lunasaw.iot.handler.notify.MessageNotifyHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class IotConnectNotifyListener implements IConnectNotifyListener {
 
     @Autowired
-    private List<MessageHander> messageHanderList;
+    private List<MessageNotifyHandler> messageNotifyHandlerList;
 
     public void onNotify(String connectId, String topic, AMessage aMessage) {
         if (connectId == null || org.apache.commons.lang3.StringUtils.isBlank(topic)) {
@@ -32,10 +32,10 @@ public class IotConnectNotifyListener implements IConnectNotifyListener {
         String messageData = new String((byte[])aMessage.getData());
         log.info("onNotify::connectId = {}, topic = {}, aMessage = {}", connectId, topic, messageData);
         NotifyMessageDTO messageDTO = NotifyMessageDTO.builder().connectId(connectId).topic(topic).message(messageData).build();
-        for (MessageHander messageHander : messageHanderList) {
+        for (MessageNotifyHandler messageNotifyHandler : messageNotifyHandlerList) {
 
-            if (messageHander.isAccept(messageDTO)) {
-                messageHander.execute(messageDTO);
+            if (messageNotifyHandler.isAccept(messageDTO)) {
+                messageNotifyHandler.execute(messageDTO);
             }
         }
     }
