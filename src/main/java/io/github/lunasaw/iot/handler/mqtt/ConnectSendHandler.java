@@ -1,16 +1,14 @@
 package io.github.lunasaw.iot.handler.mqtt;
 
-import com.aliyun.alink.linksdk.tools.AError;
-
 import io.github.lunasaw.iot.domain.RequestSendDTO;
 
 /**
- * 消息入口
+ * 发送消息成功失败处理入口
  * 
  * @author luna
  * @date 2024/6/9
  */
-public interface MqttRequestSendHandler {
+public interface ConnectSendHandler {
 
     // 普通消息发送处理
 
@@ -36,11 +34,4 @@ public interface MqttRequestSendHandler {
      * @return
      */
     boolean isAccept(RequestSendDTO requestSendDTO);
-
-    // 以下是订阅 / 取消订阅处理 处理 ===================
-
-    void onSuccess();
-
-    void onFailure(AError aError);
-
 }

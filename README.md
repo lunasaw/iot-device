@@ -7,7 +7,7 @@
 
 iot-device
 
-
+基于阿里云IOT设备控制sdk的设备端
 
 > 引入
 

@@ -1,5 +1,12 @@
 package com.aliyun.alink.devicesdk.demo;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.alink.apiclient.CommonRequest;
 import com.aliyun.alink.apiclient.CommonResponse;
@@ -22,12 +29,6 @@ import com.aliyun.alink.linksdk.tools.AError;
 import com.aliyun.alink.linksdk.tools.ALog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class HelloWorld {
     private static final String TAG              = "HelloWorld";
@@ -148,12 +149,12 @@ public class HelloWorld {
         /**
          * 测试设备标签
          */
-        testLabel();
+        // testLabel();
 
         /**
          * 测试远程配置
          */
-        // testCota();
+        testCota();
 
         /**
          * 测试网关子设备管理功能，高级版功能
@@ -381,17 +382,17 @@ public class HelloWorld {
         // 获取 COTA 更新
         sample.cOTAGet();
     }
-
-    /**
-     * 标签测试
-     */
-    private void testLabel() {
-        LabelSample sample = new LabelSample(pk, dn);
-        // 测试标签更新
-        sample.labelUpdate();
-        // 测试标签删除
-        // sample.labelDelete();
-    }
+    //
+    // /**
+    // * 标签测试
+    // */
+    // private void testLabel() {
+    // LabelSample sample = new LabelSample(pk, dn);
+    // // 测试标签更新
+    // sample.labelUpdate();
+    // // 测试标签删除
+    // // sample.labelDelete();
+    // }
 
     /**
      * @param deviceInfoData

@@ -8,16 +8,7 @@ import io.github.lunasaw.iot.domain.RequestSendDTO;
  * @author luna
  * @date 2024/6/10
  */
-public class AbstractMqttRequestSendHandler implements MqttRequestSendHandler {
-    @Override
-    public void onResponse(RequestSendDTO requestSendDTO) {
-
-    }
-
-    @Override
-    public void onFailure(RequestSendDTO requestSendDTO) {
-
-    }
+public class AbstractMqttScribeRequestHandler implements MqttScribeRequestHandler {
 
     @Override
     public boolean isAccept(RequestSendDTO requestSendDTO) {
