@@ -1,0 +1,18 @@
+{
+  "productKey": "k1f4kl0qmEU",
+  "deviceName": "luna_camera",
+  "productSecret":"",
+  "deviceSecret": "664f57b42bffcfbf3f76e7393475263d",
+  "instanceId": "iot-06z00f1einee6ko",
+  "region": "cn-shanghai",
+  "subDevice": [
+    {
+      "productKey": "",
+      "deviceName": ""
+    },
+    {
+      "productKey": "",
+      "deviceName": ""
+    }
+  ]
+}

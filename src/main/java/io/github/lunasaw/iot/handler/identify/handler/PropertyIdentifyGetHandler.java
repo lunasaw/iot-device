@@ -27,7 +27,7 @@ public class PropertyIdentifyGetHandler implements IdentifyHandler {
     public OutputParams execute(IdentifyMessageDTO identifyMessageDTO) {
         log.info("真正获取属性值的地方::execute::identifyMessageDTO = {}", identifyMessageDTO);
         OutputParams outputParams = new OutputParams();
-        ValueWrapper.IntValueWrapper intValueWrapper = new ValueWrapper.IntValueWrapper(1);
+        ValueWrapper.IntValueWrapper intValueWrapper = new ValueWrapper.IntValueWrapper(0);
         outputParams.put("LightSwitch", intValueWrapper);
         return outputParams;
     }
