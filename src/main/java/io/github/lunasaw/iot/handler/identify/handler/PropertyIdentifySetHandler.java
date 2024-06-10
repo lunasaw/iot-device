@@ -2,18 +2,15 @@ package io.github.lunasaw.iot.handler.identify.handler;
 
 import java.util.Map;
 
-import com.alibaba.fastjson2.JSON;
-import com.aliyun.alink.linksdk.tmp.api.OutputParams;
-import io.github.lunasaw.iot.domain.PublishMessageDTO;
-import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
-import io.github.lunasaw.iot.publish.BasicPublishResourceReport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson2.JSON;
+import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.common.iot.constant.IotDeviceConstant;
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
+import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**

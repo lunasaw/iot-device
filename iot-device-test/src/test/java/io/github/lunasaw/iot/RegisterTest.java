@@ -33,6 +33,10 @@ public class RegisterTest extends ApiTest {
         Map<String, ValueWrapper> reportData = new HashMap<String, ValueWrapper>();
         reportData.put(identity, intWrapper);
 
+        String lightCurrent = "LightCurrent";
+        ValueWrapper lightCurrentValue = new ValueWrapper.DoubleValueWrapper(7.8);
+        reportData.put(lightCurrent, lightCurrentValue);
+
         PublishMessageDTO build = PublishMessageDTO.builder().reportData(reportData).build();
         publishResourceReport.publish(build);
 

@@ -1,9 +1,15 @@
 package io.github.lunasaw.iot.domain.dto;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections4.MapUtils;
+
+import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
+
 import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * 物联网平台支持为产品定义多组功能（属性、服务和事件）。一组功能定义的集合，就是一个物模型模块。多个物模型模块，彼此互不影响。
@@ -19,7 +25,25 @@ public class ThingDataDTO implements Serializable {
     /**
      * {@link ThingTypeEnums}
      */
-    public String type;
-    public String identifier;
-    public String value;
+    public String                    type;
+    public String                    identifier;
+    public Map<String, ValueWrapper> value;
+
+    public synchronized void addValue(String key, ValueWrapper valueWrapper) {
+        if (MapUtils.isEmpty(value)) {
+            value = new HashMap<>();
+        }
+        value.put(key, valueWrapper);
+    }
+
+    public synchronized void addValue(String data) {
+        addValue(new ValueWrapper.StringValueWrapper(data));
+    }
+
+    public synchronized void addValue(ValueWrapper valueWrapper) {
+        if (MapUtils.isEmpty(value)) {
+            value = new HashMap<>();
+        }
+        value.put(identifier, valueWrapper);
+    }
 }
