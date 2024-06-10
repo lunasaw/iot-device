@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import io.github.lunasaw.iot.config.AliyunIotConfig;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
-import io.github.lunasaw.iot.publish.BasicPublishResourceReport;
+import io.github.lunasaw.iot.publish.AbstractPublishResourceReport;
 
 /**
  * @author luna
@@ -17,7 +17,7 @@ public class RegisterTest extends ApiTest {
     private AliyunIotConfig            aliyunIotConfig;
 
     @Autowired
-    private BasicPublishResourceReport publishResourceReport;
+    private AbstractPublishResourceReport publishResourceReport;
 
     @Test
     public void atest() {

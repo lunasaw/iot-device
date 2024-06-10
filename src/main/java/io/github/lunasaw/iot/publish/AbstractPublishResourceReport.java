@@ -3,7 +3,6 @@ package io.github.lunasaw.iot.publish;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.alink.linkkit.api.LinkKit;
@@ -23,8 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2024/6/9
  */
 @Slf4j
-@Component
-public abstract class BasicPublishResourceReport implements IPublishResourceListener {
+public abstract class AbstractPublishResourceReport implements IPublishResourceListener {
 
     public void publish(PublishMessageDTO publishMessageDTO) {
         List<ThingDataDTO> reportThings = publishMessageDTO.getReportThings();

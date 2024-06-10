@@ -8,12 +8,15 @@ import com.aliyun.alink.linksdk.channel.core.base.ARequest;
 import com.aliyun.alink.linksdk.channel.core.base.AResponse;
 import com.aliyun.alink.linksdk.channel.core.base.IOnCallListener;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author luna
  * @date 2024/6/8
  */
+@Slf4j
 @Component
-public class IOnCallListenerImpl implements IOnCallListener {
+public class IotOnCallListenerImpl implements IOnCallListener {
 
     final Object lock = new Object();
 
@@ -42,11 +45,7 @@ public class IOnCallListenerImpl implements IOnCallListener {
 
     @Override
     public void onFailed(ARequest aRequest, AError aError) {
-        System.out.println("mqtt dynamic registration failed");
-        // 让等待的api继续执行
-        synchronized (lock) {
-            lock.notify();
-        }
+        log.error("onFailed::aRequest = {}, aError = {} ", aRequest, aError);
     }
 
     @Override

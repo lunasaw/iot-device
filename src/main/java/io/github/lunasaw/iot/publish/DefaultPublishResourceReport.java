@@ -7,4 +7,4 @@ import org.springframework.stereotype.Component;
  * @date 2024/6/10
  */
 @Component
-public class DefaultPublishResourceReport extends BasicPublishResourceReport {}
+public class DefaultPublishResourceReport extends AbstractPublishResourceReport {}
