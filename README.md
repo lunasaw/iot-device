@@ -1,4 +1,4 @@
-# project-starter
+# iot-device
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.lunasaw/project-starter)](https://mvnrepository.com/artifact/io.github.lunasaw/project-starter)
 [![GitHub license](https://img.shields.io/badge/MIT_License-blue.svg)](https://raw.githubusercontent.com/lunasaw/project-starter/master/LICENSE)

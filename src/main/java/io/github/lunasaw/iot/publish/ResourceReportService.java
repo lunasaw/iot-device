@@ -2,18 +2,19 @@ package io.github.lunasaw.iot.publish;
 
 import java.util.List;
 
+import io.github.lunasaw.iot.listener.IotPublishResourceListener;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
-import com.aliyun.alink.linksdk.tmp.listener.IPublishResourceListener;
-import com.aliyun.alink.linksdk.tools.AError;
 
 import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
 import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 属性上报
@@ -22,7 +23,11 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2024/6/9
  */
 @Slf4j
-public abstract class AbstractPublishResourceReport implements IPublishResourceListener {
+@Component
+public class ResourceReportService {
+
+    @Autowired
+    private IotPublishResourceListener iotPublishResourceListener;
 
     public void publish(PublishMessageDTO publishMessageDTO) {
         List<ThingDataDTO> reportThings = publishMessageDTO.getReportThings();
@@ -58,7 +63,7 @@ public abstract class AbstractPublishResourceReport implements IPublishResourceL
         }
 
         OutputParams params = new OutputParams(thingDataDTO.getValue());
-        LinkKit.getInstance().getDeviceThing().thingEventPost(thingDataDTO.getIdentifier(), params, this);
+        LinkKit.getInstance().getDeviceThing().thingEventPost(thingDataDTO.getIdentifier(), params, iotPublishResourceListener);
     }
 
     /**
@@ -73,16 +78,6 @@ public abstract class AbstractPublishResourceReport implements IPublishResourceL
         if (!ThingTypeEnums.PROPERTY.getValue().equals(thingDataDTO.getType())) {
             return;
         }
-        LinkKit.getInstance().getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), this);
-    }
-
-    @Override
-    public void onSuccess(String s, Object o) {
-        log.info("onSuccess::s = {}, o = {}", s, JSON.toJSONString(o));
-    }
-
-    @Override
-    public void onError(String s, AError aError) {
-
+        LinkKit.getInstance().getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
     }
 }

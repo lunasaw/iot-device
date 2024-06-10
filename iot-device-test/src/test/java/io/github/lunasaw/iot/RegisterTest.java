@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import io.github.lunasaw.iot.config.AliyunIotConfig;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
-import io.github.lunasaw.iot.publish.AbstractPublishResourceReport;
+import io.github.lunasaw.iot.publish.ResourceReportService;
 
 /**
  * @author luna
@@ -14,10 +14,10 @@ import io.github.lunasaw.iot.publish.AbstractPublishResourceReport;
 public class RegisterTest extends ApiTest {
 
     @Autowired
-    private AliyunIotConfig            aliyunIotConfig;
+    private AliyunIotConfig       aliyunIotConfig;
 
     @Autowired
-    private AbstractPublishResourceReport publishResourceReport;
+    private ResourceReportService resourceReportService;
 
     @Test
     public void atest() {
@@ -26,8 +26,7 @@ public class RegisterTest extends ApiTest {
         publishMessageDTO.addReportThingsProperty("LightSwitch", 1);
         publishMessageDTO.addReportThingsProperty("LightCurrent", 7.8);
 
-
-        publishResourceReport.publish(publishMessageDTO);
+        resourceReportService.publish(publishMessageDTO);
 
         while (true) {
 

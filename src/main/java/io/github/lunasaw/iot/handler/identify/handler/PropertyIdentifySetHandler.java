@@ -2,6 +2,7 @@ package io.github.lunasaw.iot.handler.identify.handler;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson2.JSON;
@@ -10,7 +11,10 @@ import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.common.iot.constant.IotDeviceConstant;
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
+import io.github.lunasaw.iot.domain.PublishMessageDTO;
 import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
+import io.github.lunasaw.iot.mqtt.MqttRequestService;
+import io.github.lunasaw.iot.publish.ResourceReportService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class PropertyIdentifySetHandler implements IdentifyHandler {
 
+    @Autowired
+    private ResourceReportService resourceReportService;
+
     @Override
     public OutputParams execute(IdentifyMessageDTO identifyMessageDTO) {
         log.info("设置属性值的地方, 可以在此处回包::execute::identifyMessageDTO = {}", JSON.toJSONString(identifyMessageDTO));
@@ -30,6 +37,12 @@ public class PropertyIdentifySetHandler implements IdentifyHandler {
         outputParams.put("LightSwitch", wrapperMap.get("LightSwitch"));
         outputParams.put("LightSwitch2", new ValueWrapper.IntValueWrapper(222));
 
+        PublishMessageDTO publishMessageDTO = new PublishMessageDTO();
+        Object lightSwitch = wrapperMap.get("LightSwitch").getValue();
+        publishMessageDTO.addReportThingsProperty("LightSwitch", lightSwitch);
+        publishMessageDTO.addReportThingsProperty("LightCurrent", 7.8);
+
+        resourceReportService.publish(publishMessageDTO);
         return outputParams;
     }
 
