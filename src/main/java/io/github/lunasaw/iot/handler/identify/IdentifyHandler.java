@@ -3,6 +3,7 @@ package io.github.lunasaw.iot.handler.identify;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 消息对应的各个指令，可以在执行后触发回调
@@ -12,7 +13,9 @@ import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
  */
 public interface IdentifyHandler {
 
-    String getIdentify();
+    default String getIdentify() {
+        return StringUtils.EMPTY;
+    }
 
     /**
      * 消息处理

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @date 2024/6/8
  */
 @Component
-public class IMqttActionListenerImpl implements IMqttActionListener {
+public class IotMqttActionListener implements IMqttActionListener {
     @Override
     public void onSuccess(IMqttToken iMqttToken) {
         System.out.println("mqtt dynamic registration success");

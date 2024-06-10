@@ -1,5 +1,9 @@
 package com.aliyun.alink.devicesdk.demo;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.aliyun.alink.apiclient.utils.StringUtils;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.cmp.connect.channel.MqttPublishRequest;
@@ -21,101 +25,12 @@ import com.aliyun.alink.linksdk.tools.AError;
 import com.aliyun.alink.linksdk.tools.ALog;
 import com.aliyun.alink.linksdk.tools.TextUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class ThingSample extends BaseSample {
     private static final String TAG         = "ThingSample";
 
     private final static String SERVICE_SET = "set";
     private final static String SERVICE_GET = "get";
     private final static String CONNECT_ID  = "LINK_PERSISTENT";
-
-    public ThingSample(String pk, String dn) {
-        super(pk, dn);
-    }
-
-    /*  上报属性  */
-    public void reportDemoProperty() {
-        /**
-         * TODO 用户根据实际情况填写 仅做参考
-         *
-         * 我们在控制台-->产品-->功能定义一栏中，创建标识符为LightSwitch的自定义属性，类型为整形；
-         * 我们以该属性为例，演示属性的更新
-         */
-
-        String identity = "LightSwitch";
-        ValueWrapper intWrapper = new ValueWrapper.IntValueWrapper(0);
-
-        Map<String, ValueWrapper> reportData = new HashMap<String, ValueWrapper>();
-        reportData.put(identity, intWrapper);
-
-        LinkKit.getInstance().getDeviceThing().thingPropertyPost(reportData, new IPublishResourceListener() {
-
-            public void onSuccess(String alinkId, Object o) {
-                // 属性上报成功
-                ALog.d(TAG, "上报成功 onSuccess() called with: alinkId = [" + alinkId + "], o = [" + o + "]");
-            }
-
-            public void onError(String alinkId, AError aError) {
-                // 属性上报失败
-                ALog.d(TAG, "上报失败onError() called with: alinkId = [" + alinkId + "], aError = [" + getError(aError) + "]");
-            }
-        });
-    }
-
-    /**
-     * 上报事件
-     */
-    public void reportDemoEvent() {
-
-        /**
-         * TODO 用户根据实际情况填写 仅做参考
-         *
-         * 我们在控制台-->产品-->功能定义一栏中，创建标识符为ErrorEvent的自定义事件，该事件有一个参数ErrorCode，类型为整形；
-         * 另一个参数ErrorDesc，类型为text类型
-         * 我们以该事件为例，演示用1条事件上报的消息更新2个参数
-         */
-
-        String identity = "ErrorEvent";
-
-        HashMap<String, ValueWrapper> valueWrapperMap = new HashMap<String, ValueWrapper>();
-        /* 为参数ErrorCode赋值 */
-        ValueWrapper intWrapper = new ValueWrapper.IntValueWrapper(1);
-        valueWrapperMap.put("ErrorCode", intWrapper);
-        /* 为参数ErrorDesc赋值 */
-        ValueWrapper StringWrapper = new ValueWrapper.StringValueWrapper("hello123");
-        valueWrapperMap.put("ErrorDesc", StringWrapper);
-
-        OutputParams params = new OutputParams(valueWrapperMap);
-
-        LinkKit.getInstance().getDeviceThing().thingEventPost(identity, params, new IPublishResourceListener() {
-            public void onSuccess(String alinkId, Object o) {
-                // 事件上报成功
-                ALog.d(TAG, "onSuccess() called with: alinkId = [" + alinkId + "], o = [" + o + "]");
-            }
-
-            public void onError(String alinkId, AError aError) {
-                // 事件上报失败
-                ALog.w(TAG, "onError() called with: alinkId = [" + alinkId + "], aError = [" + getError(aError) + "]");
-            }
-        });
-    }
-
-    /**
-     * 设备端接收服务端的属性下发和服务下发的消息，并作出反馈
-     */
-    public void setServiceHandler() {
-        ALog.d(TAG, "setServiceHandler() called");
-        List<Service> srviceList = LinkKit.getInstance().getDeviceThing().getServices();
-        for (int i = 0; srviceList != null && i < srviceList.size(); i++) {
-            Service service = srviceList.get(i);
-            LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), mCommonHandler);
-        }
-        LinkKit.getInstance().registerOnNotifyListener(connectNotifyListener);
-    }
-
     private ITResRequestHandler    mCommonHandler        = new ITResRequestHandler() {
                                                              public void onProcess(String identify, Object result,
                                                                  ITResResponseCallback itResResponseCallback) {
@@ -217,7 +132,6 @@ public class ThingSample extends BaseSample {
                                                                  ALog.d(TAG, "注册服务失败");
                                                              }
                                                          };
-
     /**
      * 同步服务回调处理函数
      * 同步服务下行方式包括云端系统RRPC下行和用户自定义RRPC下行两种，在该函数中都分别进行处理
@@ -330,6 +244,90 @@ public class ThingSample extends BaseSample {
 
                                                              public void onConnectStateChange(String s, ConnectState connectState) {}
                                                          };
+
+    public ThingSample(String pk, String dn) {
+        super(pk, dn);
+    }
+
+    /*  上报属性  */
+    public void reportDemoProperty() {
+        /**
+         * TODO 用户根据实际情况填写 仅做参考
+         *
+         * 我们在控制台-->产品-->功能定义一栏中，创建标识符为LightSwitch的自定义属性，类型为整形；
+         * 我们以该属性为例，演示属性的更新
+         */
+
+        String identity = "LightSwitch";
+        ValueWrapper intWrapper = new ValueWrapper.IntValueWrapper(0);
+
+        Map<String, ValueWrapper> reportData = new HashMap<String, ValueWrapper>();
+        reportData.put(identity, intWrapper);
+
+        LinkKit.getInstance().getDeviceThing().thingPropertyPost(reportData, new IPublishResourceListener() {
+
+            public void onSuccess(String alinkId, Object o) {
+                // 属性上报成功
+                ALog.d(TAG, "上报成功 onSuccess() called with: alinkId = [" + alinkId + "], o = [" + o + "]");
+            }
+
+            public void onError(String alinkId, AError aError) {
+                // 属性上报失败
+                ALog.d(TAG, "上报失败onError() called with: alinkId = [" + alinkId + "], aError = [" + getError(aError) + "]");
+            }
+        });
+    }
+
+    /**
+     * 上报事件
+     */
+    public void reportDemoEvent() {
+
+        /**
+         * TODO 用户根据实际情况填写 仅做参考
+         *
+         * 我们在控制台-->产品-->功能定义一栏中，创建标识符为ErrorEvent的自定义事件，该事件有一个参数ErrorCode，类型为整形；
+         * 另一个参数ErrorDesc，类型为text类型
+         * 我们以该事件为例，演示用1条事件上报的消息更新2个参数
+         */
+
+        String identity = "ErrorEvent";
+
+        HashMap<String, ValueWrapper> valueWrapperMap = new HashMap<String, ValueWrapper>();
+        /* 为参数ErrorCode赋值 */
+        ValueWrapper intWrapper = new ValueWrapper.IntValueWrapper(1);
+        valueWrapperMap.put("ErrorCode", intWrapper);
+        /* 为参数ErrorDesc赋值 */
+        ValueWrapper StringWrapper = new ValueWrapper.StringValueWrapper("hello123");
+        valueWrapperMap.put("ErrorDesc", StringWrapper);
+
+        OutputParams params = new OutputParams(valueWrapperMap);
+
+        LinkKit.getInstance().getDeviceThing().thingEventPost(identity, params, new IPublishResourceListener() {
+            public void onSuccess(String alinkId, Object o) {
+                // 事件上报成功
+                ALog.d(TAG, "onSuccess() called with: alinkId = [" + alinkId + "], o = [" + o + "]");
+            }
+
+            public void onError(String alinkId, AError aError) {
+                // 事件上报失败
+                ALog.w(TAG, "onError() called with: alinkId = [" + alinkId + "], aError = [" + getError(aError) + "]");
+            }
+        });
+    }
+
+    /**
+     * 设备端接收服务端的属性下发和服务下发的消息，并作出反馈
+     */
+    public void setServiceHandler() {
+        ALog.d(TAG, "setServiceHandler() called");
+        List<Service> srviceList = LinkKit.getInstance().getDeviceThing().getServices();
+        for (int i = 0; srviceList != null && i < srviceList.size(); i++) {
+            Service service = srviceList.get(i);
+            LinkKit.getInstance().getDeviceThing().setServiceHandler(service.getIdentifier(), mCommonHandler);
+        }
+        LinkKit.getInstance().registerOnNotifyListener(connectNotifyListener);
+    }
 
     private String printAMessage(AMessage aMessage) {
         return (aMessage == null || aMessage.data == null) ? "" : new String((byte[])aMessage.data);

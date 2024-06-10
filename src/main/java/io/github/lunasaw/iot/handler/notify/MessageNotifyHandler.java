@@ -14,7 +14,6 @@ public interface MessageNotifyHandler {
      * 消息处理
      *
      * @param notifyMessageDTO
-     * @return
      */
     void execute(NotifyMessageDTO notifyMessageDTO);
 

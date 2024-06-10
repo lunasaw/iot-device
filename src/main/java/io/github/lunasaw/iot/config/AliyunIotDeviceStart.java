@@ -3,9 +3,7 @@ package io.github.lunasaw.iot.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.lunasaw.iot.handler.IotResRequestHandler;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,14 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import com.aliyun.alink.dm.api.DeviceInfo;
-import com.aliyun.alink.dm.api.InitResult;
 import com.aliyun.alink.linkkit.api.ILinkKitConnectListener;
 import com.aliyun.alink.linkkit.api.IoTMqttClientConfig;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linkkit.api.LinkKitInitParams;
-import com.aliyun.alink.linksdk.channel.core.base.IOnCallListener;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
-import com.aliyun.alink.linksdk.tools.AError;
 
 import io.github.lunasaw.iot.common.iot.constant.IotDeviceConstant;
 import lombok.Data;
@@ -38,16 +33,10 @@ import lombok.extern.slf4j.Slf4j;
 public class AliyunIotDeviceStart implements InitializingBean {
 
     @Autowired
-    private AliyunIotConfig     aliyunIotConfig;
+    private AliyunIotConfig         aliyunIotConfig;
 
     @Autowired
-    private IOnCallListener     iOnCallListener;
-
-    @Autowired
-    private IMqttActionListener iMqttActionListener;
-
-    @Autowired
-    private IotResRequestHandler iotResRequestHandler;
+    private ILinkKitConnectListener iLinkKitConnectListener;
 
     public AliyunIotDeviceStart(AliyunIotConfig aliyunIotConfig) {
         this.aliyunIotConfig = aliyunIotConfig;
@@ -105,17 +94,7 @@ public class AliyunIotDeviceStart implements InitializingBean {
         /**
          * 设备进行初始化，并连云
          */
-        LinkKit.getInstance().init(params, new ILinkKitConnectListener() {
-            @Override
-            public void onError(AError aError) {
-                log.error("onError::aError = {} ", aError);
-            }
-
-            @Override
-            public void onInitDone(InitResult initResult) {
-                iotResRequestHandler.setServiceHandler();
-            }
-        });
+        LinkKit.getInstance().init(params, iLinkKitConnectListener);
     }
 
     @Override

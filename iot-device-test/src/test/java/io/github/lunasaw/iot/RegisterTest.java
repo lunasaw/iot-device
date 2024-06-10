@@ -1,16 +1,11 @@
 package io.github.lunasaw.iot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
-
 import io.github.lunasaw.iot.config.AliyunIotConfig;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
-import io.github.lunasaw.iot.handler.publish.LightPublishResourceHandler;
+import io.github.lunasaw.iot.publish.AbstractPublishResourceReport;
 
 /**
  * @author luna
@@ -19,22 +14,20 @@ import io.github.lunasaw.iot.handler.publish.LightPublishResourceHandler;
 public class RegisterTest extends ApiTest {
 
     @Autowired
-    private AliyunIotConfig             aliyunIotConfig;
+    private AliyunIotConfig            aliyunIotConfig;
 
     @Autowired
-    private LightPublishResourceHandler lightPublishResourceHandler;
+    private AbstractPublishResourceReport publishResourceReport;
 
     @Test
     public void atest() {
 
-        String identity = "LightSwitch";
-        ValueWrapper intWrapper = new ValueWrapper.IntValueWrapper(1);
+        PublishMessageDTO publishMessageDTO = new PublishMessageDTO();
+        publishMessageDTO.addReportThingsProperty("LightSwitch", 1);
+        publishMessageDTO.addReportThingsProperty("LightCurrent", 7.8);
 
-        Map<String, ValueWrapper> reportData = new HashMap<String, ValueWrapper>();
-        reportData.put(identity, intWrapper);
 
-        PublishMessageDTO build = PublishMessageDTO.builder().reportData(reportData).build();
-        lightPublishResourceHandler.publish(build);
+        publishResourceReport.publish(publishMessageDTO);
 
         while (true) {
 
