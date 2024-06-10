@@ -27,12 +27,9 @@ public class ThingDataDTO implements Serializable {
      */
     public String                    type;
     public String                    identifier;
-    public Map<String, ValueWrapper> value;
+    public Map<String, ValueWrapper> value = new HashMap<>();
 
     public synchronized void addValue(String key, ValueWrapper valueWrapper) {
-        if (MapUtils.isEmpty(value)) {
-            value = new HashMap<>();
-        }
         value.put(key, valueWrapper);
     }
 
@@ -41,9 +38,6 @@ public class ThingDataDTO implements Serializable {
     }
 
     public synchronized void addValue(ValueWrapper valueWrapper) {
-        if (MapUtils.isEmpty(value)) {
-            value = new HashMap<>();
-        }
         value.put(identifier, valueWrapper);
     }
 }

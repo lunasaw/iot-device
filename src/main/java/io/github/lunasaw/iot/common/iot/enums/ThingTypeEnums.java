@@ -41,7 +41,8 @@ public enum ThingTypeEnums {
     private int    code;
     private String value;
 
-    ThingTypeEnums(int i, String device) {
-
+    ThingTypeEnums(int i, String value) {
+        this.code = i;
+        this.value = value;
     }
 }

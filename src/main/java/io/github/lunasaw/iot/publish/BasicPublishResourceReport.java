@@ -1,23 +1,20 @@
 package io.github.lunasaw.iot.publish;
 
-import com.aliyun.alink.linksdk.tmp.api.OutputParams;
-import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
-import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
-import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
+import java.util.List;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.alink.linkkit.api.LinkKit;
+import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 import com.aliyun.alink.linksdk.tmp.listener.IPublishResourceListener;
 import com.aliyun.alink.linksdk.tools.AError;
 
+import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
+import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 属性上报
@@ -27,22 +24,33 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class BasicPublishResourceReport implements IPublishResourceListener {
+public abstract class BasicPublishResourceReport implements IPublishResourceListener {
 
     public void publish(PublishMessageDTO publishMessageDTO) {
-
         List<ThingDataDTO> reportThings = publishMessageDTO.getReportThings();
         if (CollectionUtils.isEmpty(reportThings)) {
             return;
         }
         for (ThingDataDTO reportThing : reportThings) {
-            reportProperty(reportThing);
+            if (reportThing == null || reportThing.getType() == null) {
+                log.info("publish::reportThing = {}", JSON.toJSONString(reportThing));
+                continue;
+            }
+            if (ThingTypeEnums.PROPERTY.getValue().equals(reportThing.getType())) {
+                reportProperty(reportThing);
+            }
 
+            if (ThingTypeEnums.EVENT.getValue().equals(reportThing.getType())) {
+                reportEvent(reportThing);
+            }
         }
-
-        LinkKit.getInstance().getDeviceThing().thingPropertyPost(publishMessageDTO.getReportData(), this);
     }
 
+    /**
+     * 发送事件
+     * 
+     * @param thingDataDTO
+     */
     public void reportEvent(ThingDataDTO thingDataDTO) {
         if (thingDataDTO == null) {
             return;
@@ -55,6 +63,11 @@ public class BasicPublishResourceReport implements IPublishResourceListener {
         LinkKit.getInstance().getDeviceThing().thingEventPost(thingDataDTO.getIdentifier(), params, this);
     }
 
+    /**
+     * 发送属性
+     * 
+     * @param thingDataDTO
+     */
     public void reportProperty(ThingDataDTO thingDataDTO) {
         if (thingDataDTO == null) {
             return;

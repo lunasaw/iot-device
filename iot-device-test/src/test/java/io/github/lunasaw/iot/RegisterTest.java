@@ -1,12 +1,7 @@
 package io.github.lunasaw.iot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.config.AliyunIotConfig;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
@@ -27,18 +22,12 @@ public class RegisterTest extends ApiTest {
     @Test
     public void atest() {
 
-        String identity = "LightSwitch";
-        ValueWrapper intWrapper = new ValueWrapper.IntValueWrapper(1);
+        PublishMessageDTO publishMessageDTO = new PublishMessageDTO();
+        publishMessageDTO.addReportThingsProperty("LightSwitch", 1);
+        publishMessageDTO.addReportThingsProperty("LightCurrent", 7.8);
 
-        Map<String, ValueWrapper> reportData = new HashMap<String, ValueWrapper>();
-        reportData.put(identity, intWrapper);
 
-        String lightCurrent = "LightCurrent";
-        ValueWrapper lightCurrentValue = new ValueWrapper.DoubleValueWrapper(7.8);
-        reportData.put(lightCurrent, lightCurrentValue);
-
-        PublishMessageDTO build = PublishMessageDTO.builder().reportData(reportData).build();
-        publishResourceReport.publish(build);
+        publishResourceReport.publish(publishMessageDTO);
 
         while (true) {
 
