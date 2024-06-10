@@ -1,21 +1,23 @@
 package io.github.lunasaw.iot.mqtt;
 
-import com.aliyun.alink.linksdk.cmp.connect.channel.MqttSubscribeRequest;
-import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSubscribeListener;
-import com.aliyun.alink.linksdk.cmp.core.listener.IConnectUnscribeListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.aliyun.alink.linkkit.api.LinkKit;
+import com.aliyun.alink.linksdk.cmp.api.CommonResource;
 import com.aliyun.alink.linksdk.cmp.connect.channel.MqttPublishRequest;
+import com.aliyun.alink.linksdk.cmp.connect.channel.MqttSubscribeRequest;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSendListener;
+import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSubscribeListener;
+import com.aliyun.alink.linksdk.cmp.core.listener.IConnectUnscribeListener;
+import com.aliyun.alink.linksdk.cmp.core.listener.IResourceRequestListener;
 
 /**
  * @author luna
  * @date 2024/6/10
  */
 @Component
-public class MqttRequestServive {
+public class MqttRequestService {
 
     @Autowired
     private IConnectSendListener      iConnectSendListener;
@@ -25,6 +27,9 @@ public class MqttRequestServive {
 
     @Autowired
     private IConnectUnscribeListener  unscribeListener;
+
+    @Autowired
+    private IResourceRequestListener  resourceRequestListener;
 
     /**
      * 不需要回复的消息
@@ -93,5 +98,22 @@ public class MqttRequestServive {
 
     public void unsubscribe(MqttSubscribeRequest request) {
         LinkKit.getInstance().unsubscribe(request, unscribeListener);
+    }
+
+    public void registerResource(String topic) {
+        registerResource(topic, null, false, topic);
+    }
+
+    public void registerResource(String topic, Object payload, boolean isNeedAuth, String replyTopic) {
+        CommonResource resource = new CommonResource();
+        resource.topic = topic;
+        resource.payload = payload;
+        resource.isNeedAuth = isNeedAuth;
+        resource.replyTopic = replyTopic;
+        registerResource(resource);
+    }
+
+    public void registerResource(CommonResource commonResource) {
+        LinkKit.getInstance().registerResource(commonResource, resourceRequestListener);
     }
 }

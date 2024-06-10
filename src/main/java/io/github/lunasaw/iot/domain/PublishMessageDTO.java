@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
+
 import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
 import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * @author luna

@@ -22,11 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PropertyIdentifySetHandler implements IdentifyHandler {
 
     @Override
-    public String getIdentify() {
-        return IotDeviceConstant.Identify.SERVICE_SET;
-    }
-
-    @Override
     public OutputParams execute(IdentifyMessageDTO identifyMessageDTO) {
         log.info("设置属性值的地方, 可以在此处回包::execute::identifyMessageDTO = {}", JSON.toJSONString(identifyMessageDTO));
         Map<String, ValueWrapper> wrapperMap = identifyMessageDTO.getData();

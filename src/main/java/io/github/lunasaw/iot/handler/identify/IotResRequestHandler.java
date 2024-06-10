@@ -24,6 +24,11 @@ import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 先注册服务的处理监听器，当云端触发异步服务调用时，下行的请求会到注册的监听器中。一个设备会有多种服务，通常需要注册所有服务的处理监听器。
+ * onProcess是设备收到的云端下行的服务调用方法，第一个参数是需要调用服务对应的identifier，用户可以根据identifier做不同的处理。云端调用设置服务时，设备需要在收到设置指令后，调用设备执行真实操作，操作结束后上报一条属性状态变化的通知。
+ * 说明
+ * identifier是在物联网平台为产品创建属性、事件、服务时定义的标识符，用户可在物联网平台控制台查看产品功能定义中属性、事件、服务对应的identifier。
+ * 
  * @author luna
  * @date 2024/6/9
  */
@@ -94,9 +99,10 @@ public class IotResRequestHandler implements ITResRequestHandler {
         // 自定义命令处理
         for (IdentifyHandler identifyHandler : identifyHandlers) {
             String identify = identifyHandler.getIdentify();
-            if (StringUtils.isNoneBlank(identify)) {
-                LinkKit.getInstance().getDeviceThing().setServiceHandler(identify, this);
+            if (StringUtils.isBlank(identify)) {
+                continue;
             }
+            LinkKit.getInstance().getDeviceThing().setServiceHandler(identify, this);
         }
     }
 }

@@ -6,6 +6,8 @@ import io.github.lunasaw.iot.domain.NotifyMessageDTO;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 这里同步处理
+ * 
  * @author luna
  * @date 2024/6/9
  */

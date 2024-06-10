@@ -1,6 +1,5 @@
 package io.github.lunasaw.iot.handler.identify.handler;
 
-import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
 import org.springframework.stereotype.Component;
 
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
@@ -8,6 +7,7 @@ import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.common.iot.constant.IotDeviceConstant;
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
+import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,11 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class PropertyIdentifyGetHandler implements IdentifyHandler {
-
-    @Override
-    public String getIdentify() {
-        return IotDeviceConstant.Identify.SERVICE_GET;
-    }
 
     @Override
     public OutputParams execute(IdentifyMessageDTO identifyMessageDTO) {
