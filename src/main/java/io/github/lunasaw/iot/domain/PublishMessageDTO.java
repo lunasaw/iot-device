@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
-import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
+import io.github.lunasaw.iot.common.enums.ThingTypeEnums;
 import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +17,13 @@ import lombok.NoArgsConstructor;
  * @date 2024/6/9
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class PublishMessageDTO {
 
     private List<ThingDataDTO> reportThings = new ArrayList<>();
+
 
     public synchronized void addReportThingsProperty(String key, Object data) {
         addReportThingsProperty(key, new ValueWrapper(data));

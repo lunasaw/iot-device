@@ -6,7 +6,7 @@ spring:
 
 
   main:
-    allow-circular-references: true
+    allow-circular-references: false
 
 logging:
   config: classpath:log/logback-spring.xml

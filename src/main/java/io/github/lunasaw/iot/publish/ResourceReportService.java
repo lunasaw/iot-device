@@ -2,19 +2,19 @@ package io.github.lunasaw.iot.publish;
 
 import java.util.List;
 
-import io.github.lunasaw.iot.listener.IotPublishResourceListener;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 
-import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
+import io.github.lunasaw.iot.common.enums.ThingTypeEnums;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
 import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
+import io.github.lunasaw.iot.listener.IotPublishResourceListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 属性上报

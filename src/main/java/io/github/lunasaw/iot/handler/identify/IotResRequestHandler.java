@@ -3,6 +3,7 @@ package io.github.lunasaw.iot.handler.identify;
 import java.util.List;
 import java.util.Map;
 
+import io.github.lunasaw.iot.config.IotDeviceStart;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,5 +105,6 @@ public class IotResRequestHandler implements ITResRequestHandler {
             }
             LinkKit.getInstance().getDeviceThing().setServiceHandler(identify, this);
         }
+
     }
 }

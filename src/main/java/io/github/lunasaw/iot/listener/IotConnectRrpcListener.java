@@ -3,8 +3,10 @@ package io.github.lunasaw.iot.listener;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.alink.linkkit.api.LinkKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +25,7 @@ import io.github.lunasaw.iot.handler.cota.shadow.CotaHandler;
  */
 @Slf4j
 @Component
-public class IotConnectRrpcListener implements IConnectRrpcListener {
+public class IotConnectRrpcListener implements IConnectRrpcListener, InitializingBean {
 
     @Autowired(required = false)
     private List<CotaHandler> cotaHandlers;
@@ -63,5 +65,10 @@ public class IotConnectRrpcListener implements IConnectRrpcListener {
     @Override
     public void onResponseFailed(ARequest aRequest, AError aError) {
 
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        LinkKit.getInstance().getDeviceCOTA().setCOTAChangeListener(this);
     }
 }
