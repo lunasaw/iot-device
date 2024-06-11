@@ -21,13 +21,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PublishMessageDTO {
-    private String             deviceKey;
 
     private List<ThingDataDTO> reportThings = new ArrayList<>();
 
-    public PublishMessageDTO(String deviceKey) {
-        this.deviceKey = deviceKey;
-    }
 
     public synchronized void addReportThingsProperty(String key, Object data) {
         addReportThingsProperty(key, new ValueWrapper(data));

@@ -2,18 +2,12 @@ iot:
   # 使用环境变量配置，避免泄漏 -Diot.productKey=xxx -Diot.productSecret=xxx
   iot-instance-id: iot-06z00f1einee6ko
   mqtt-host-url: ssl://${iot.iot-instance-id}.mqtt.iothub.aliyuncs.com:8883
-  product-list:
-    - # 使用环境变量配置，避免泄漏 -Diot.productKey=xxx -Diot.productSecret=xxx
-      product-key: k1f4kl0qmEU
-      product-secret: JFWnHFz09rro0nU4
-      device-list:
-        - device-name: luna_camera
-          device-secret: 664f57b42bffcfbf3f76e7393475263d
+  product:
+    # 使用环境变量配置，避免泄漏 -Diot.productKey=xxx -Diot.productSecret=xxx
+    product-key: k1f4kl0qmEU
+    product-secret: JFWnHFz09rro0nU4
+    device:
+      device-name: luna_camera
+      device-secret: 664f57b42bffcfbf3f76e7393475263d
 
 
-    - # 使用环境变量配置，避免泄漏 -Diot.productKey=xxx -Diot.productSecret=xxx
-      product-key: k1f4kTQIBiL
-      product-secret: rxJiajOG0itRMjZR
-      device-list:
-        - device-name: luna_camera
-          device-secret: 664f57b42bffcfbf3f76e7393475263d

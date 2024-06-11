@@ -1,12 +1,12 @@
 package io.github.lunasaw.iot.config;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
+import javax.annotation.PreDestroy;
+
+import com.luna.common.check.Assert;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -21,8 +21,6 @@ import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.PreDestroy;
-
 /**
  * @author luna
  * @date 2024/6/7
@@ -31,17 +29,16 @@ import javax.annotation.PreDestroy;
 @Data
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({AliyunIotConfig.class, AliyunIotProduct.class, AliyunIotDevice.class})
-public class AliyunIotDeviceStart implements InitializingBean {
+@EnableConfigurationProperties({IotConfig.class, IotConfig.IotProduct.class, IotConfig.IotDevice.class})
+public class IotDeviceStart implements InitializingBean {
 
-    public static Map<String, ILinkKit> DEVICES = new HashMap<>();
     @Autowired
-    private AliyunIotConfig             aliyunIotConfig;
+    private IotConfig               iotConfig;
     @Autowired
     private ILinkKitConnectListener     iLinkKitConnectListener;
 
-    public AliyunIotDeviceStart(AliyunIotConfig aliyunIotConfig) {
-        this.aliyunIotConfig = aliyunIotConfig;
+    public IotDeviceStart(IotConfig iotConfig) {
+        this.iotConfig = iotConfig;
     }
 
     public Map<String, ValueWrapper> getPropertyValues() {
@@ -77,12 +74,12 @@ public class AliyunIotDeviceStart implements InitializingBean {
         config.deviceName = deviceName;
         config.deviceSecret = deviceSecret;
 
-        if (StringUtils.isNotEmpty(aliyunIotConfig.getMqttHostUrl())) {
+        if (StringUtils.isNotEmpty(iotConfig.getMqttHostUrl())) {
             // 如果实例详情页面有实例的id, 建议开发者填入实例id. 推荐的做法
-            config.channelHost = aliyunIotConfig.getMqttHostUrl();
+            config.channelHost = iotConfig.getMqttHostUrl();
         } else {
             // 如果实例详情页面没有实例的id, 建议开发者填入实例所在的region. 注：该用法不支持深圳和北京两个region
-            config.channelHost = productKey + ".iot-as-mqtt." + aliyunIotConfig.getRegion() + ".aliyuncs.com:8883";
+            config.channelHost = productKey + ".iot-as-mqtt." + iotConfig.getRegion() + ".aliyuncs.com:8883";
         }
 
         /**
@@ -95,39 +92,31 @@ public class AliyunIotDeviceStart implements InitializingBean {
     }
 
     public void init() {
+        IotConfig.IotProduct product = iotConfig.getProduct();
+        Assert.notNull(product, "product is null");
+        IotConfig.IotDevice device = product.getDevice();
+        Assert.notNull(device, "device is null");
 
-        List<AliyunIotProduct> productList = aliyunIotConfig.getProductList();
-        if (CollectionUtils.isEmpty(productList)) {
-            return;
-        }
-        for (AliyunIotProduct aliyunIotProduct : productList) {
-            LinkKitInitParams params = new LinkKitInitParams();
-            if (CollectionUtils.isEmpty(aliyunIotProduct.getDeviceList())) {
-                return;
-            }
-            for (AliyunIotDevice aliyunIotDevice : aliyunIotProduct.getDeviceList()) {
-                String productKey = aliyunIotProduct.getProductKey();
-                String productSecret = aliyunIotProduct.getProductSecret();
-                String deviceName = aliyunIotDevice.getDeviceName();
-                String deviceSecret = aliyunIotDevice.getDeviceSecret();
+        LinkKitInitParams params = new LinkKitInitParams();
 
-                params.mqttClientConfig = getIoTMqttClientConfig(productKey, deviceName, deviceSecret);
+        String productKey = product.getProductKey();
+        String productSecret = product.getProductSecret();
+        String deviceName = device.getDeviceName();
+        String deviceSecret = device.getDeviceSecret();
 
-                params.deviceInfo = getDeviceInfo(productKey, productSecret, deviceName, deviceSecret);
+        params.mqttClientConfig = getIoTMqttClientConfig(productKey, deviceName, deviceSecret);
 
-                params.propertyValues = getPropertyValues();
+        params.deviceInfo = getDeviceInfo(productKey, productSecret, deviceName, deviceSecret);
 
-                params.fmVersion = IotDeviceConstant.Device.FIRMWARE_VERSION;
+        params.propertyValues = getPropertyValues();
 
-                /**
-                 * 设备进行初始化，并连云
-                 */
-                ILinkKit instance = LinkKit.getInstance();
-                instance.init(params, iLinkKitConnectListener);
-                DEVICES.put(productKey + "-" + deviceName, instance);
-            }
-        }
+        params.fmVersion = device.getFirmwareVersion();
 
+        /**
+         * 设备进行初始化，并连云
+         */
+        ILinkKit instance = LinkKit.getInstance();
+        instance.init(params, iLinkKitConnectListener);
     }
 
     @PreDestroy
