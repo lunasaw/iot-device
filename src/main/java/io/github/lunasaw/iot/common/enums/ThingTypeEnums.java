@@ -1,5 +1,5 @@
 
-package io.github.lunasaw.iot.common.iot.enums;
+package io.github.lunasaw.iot.common.enums;
 
 import lombok.Getter;
 

@@ -2,19 +2,21 @@ package io.github.lunasaw.iot.publish;
 
 import java.util.List;
 
-import io.github.lunasaw.iot.listener.IotPublishResourceListener;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.alink.linkkit.api.ILinkKit;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 
-import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
+import io.github.lunasaw.iot.common.enums.ThingTypeEnums;
+import io.github.lunasaw.iot.config.AliyunIotDeviceStart;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
 import io.github.lunasaw.iot.domain.dto.ThingDataDTO;
+import io.github.lunasaw.iot.listener.IotPublishResourceListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 属性上报
@@ -40,13 +42,17 @@ public class ResourceReportService {
                 continue;
             }
             if (ThingTypeEnums.PROPERTY.getValue().equals(reportThing.getType())) {
-                reportProperty(reportThing);
+                reportProperty(publishMessageDTO.getDeviceKey(), reportThing);
             }
 
             if (ThingTypeEnums.EVENT.getValue().equals(reportThing.getType())) {
-                reportEvent(reportThing);
+                reportEvent(publishMessageDTO.getDeviceKey(), reportThing);
             }
         }
+    }
+
+    public void reportEvent(ThingDataDTO thingDataDTO) {
+        reportEvent(null, thingDataDTO);
     }
 
     /**
@@ -54,7 +60,7 @@ public class ResourceReportService {
      * 
      * @param thingDataDTO
      */
-    public void reportEvent(ThingDataDTO thingDataDTO) {
+    public void reportEvent(String deviceKey, ThingDataDTO thingDataDTO) {
         if (thingDataDTO == null) {
             return;
         }
@@ -62,8 +68,16 @@ public class ResourceReportService {
             return;
         }
 
+        ILinkKit iLinkKit = AliyunIotDeviceStart.DEVICES.get(deviceKey);
+        if (iLinkKit == null) {
+            iLinkKit = LinkKit.getInstance();
+        }
         OutputParams params = new OutputParams(thingDataDTO.getValue());
-        LinkKit.getInstance().getDeviceThing().thingEventPost(thingDataDTO.getIdentifier(), params, iotPublishResourceListener);
+        iLinkKit.getDeviceThing().thingEventPost(thingDataDTO.getIdentifier(), params, iotPublishResourceListener);
+    }
+
+    public void reportProperty(ThingDataDTO thingDataDTO) {
+        reportProperty(null, thingDataDTO);
     }
 
     /**
@@ -71,13 +85,17 @@ public class ResourceReportService {
      * 
      * @param thingDataDTO
      */
-    public void reportProperty(ThingDataDTO thingDataDTO) {
+    public void reportProperty(String deviceKey, ThingDataDTO thingDataDTO) {
         if (thingDataDTO == null) {
             return;
         }
         if (!ThingTypeEnums.PROPERTY.getValue().equals(thingDataDTO.getType())) {
             return;
         }
-        LinkKit.getInstance().getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
+        ILinkKit iLinkKit = AliyunIotDeviceStart.DEVICES.get(deviceKey);
+        if (iLinkKit == null) {
+            iLinkKit = LinkKit.getInstance();
+        }
+        iLinkKit.getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
     }
 }

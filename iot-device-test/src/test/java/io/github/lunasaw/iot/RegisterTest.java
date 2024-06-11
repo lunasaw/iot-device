@@ -1,5 +1,6 @@
 package io.github.lunasaw.iot;
 
+import io.github.lunasaw.iot.config.AliyunIotProduct;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +23,9 @@ public class RegisterTest extends ApiTest {
     @Test
     public void atest() {
 
-        PublishMessageDTO publishMessageDTO = new PublishMessageDTO();
+        AliyunIotProduct aliyunIotProduct = aliyunIotConfig.getProductList().get(0);
+        String deviceKey = aliyunIotProduct.getProductKey() + "_" + aliyunIotProduct.getDeviceList().get(0).getDeviceName();
+        PublishMessageDTO publishMessageDTO = new PublishMessageDTO(deviceKey);
         publishMessageDTO.addReportThingsProperty("LightSwitch", 1);
         publishMessageDTO.addReportThingsProperty("LightCurrent", 7.8);
 

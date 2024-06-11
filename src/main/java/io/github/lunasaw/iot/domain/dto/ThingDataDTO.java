@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
-
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
-import io.github.lunasaw.iot.common.iot.enums.ThingTypeEnums;
+import io.github.lunasaw.iot.common.enums.ThingTypeEnums;
 import lombok.Data;
 
 /**
@@ -25,9 +23,9 @@ public class ThingDataDTO implements Serializable {
     /**
      * {@link ThingTypeEnums}
      */
-    public String                    type;
-    public String                    identifier;
-    public Map<String, ValueWrapper> value = new HashMap<>();
+    private String                    type;
+    private String                    identifier;
+    private Map<String, ValueWrapper> value = new HashMap<>();
 
     public synchronized void addValue(String key, ValueWrapper valueWrapper) {
         value.put(key, valueWrapper);

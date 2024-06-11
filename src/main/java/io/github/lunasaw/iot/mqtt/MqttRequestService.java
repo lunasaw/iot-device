@@ -61,6 +61,8 @@ public class MqttRequestService {
      * eg.
      * {"id":"160865432","method":"thing.event.property.post","params":{"LightSwitch":1},"version":"1.0"}
      * @param qos 设置MQTT请求中QOS的值，默认为0。
+     * 0：消息只发一次，不保证设备收到。
+     * 1：消息至少发一次，失败重发，保证设备收到消息。
      * @param needRpc 是否为RPC请求，如果是，则需要等待 replyTopic消息后才Rsp。
      * 默认为false，表示不需应答。
      */

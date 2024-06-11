@@ -2,6 +2,7 @@ package io.github.lunasaw.iot.shadow;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.aliyun.alink.linkkit.api.LinkKit;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
+@Order(9)
 public class IotShadowService implements InitializingBean {
 
     @Autowired

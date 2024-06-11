@@ -1,4 +1,4 @@
-package io.github.lunasaw.iot.common.iot.constant;
+package io.github.lunasaw.iot.common.constant;
 
 /**
  * @author luna

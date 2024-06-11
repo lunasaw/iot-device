@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
-import io.github.lunasaw.iot.common.iot.constant.IotDeviceConstant;
+import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
 import io.github.lunasaw.iot.domain.IdentifyMessageDTO;
 import io.github.lunasaw.iot.handler.identify.IdentifyHandler;
 import lombok.extern.slf4j.Slf4j;

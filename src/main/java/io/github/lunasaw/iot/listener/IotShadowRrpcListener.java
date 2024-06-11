@@ -2,6 +2,7 @@ package io.github.lunasaw.iot.listener;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class IotShadowRrpcListener implements IShadowRRPC {
 
     @Override
     public void onSubscribeFailed(ARequest aRequest, AError aError) {
-        log.info("设备影子下行订阅失败 onSubscribeFailed::aRequest = {}, aError = {}", aRequest, aError);
+        log.info("设备影子下行订阅失败 onSubscribeFailed::aRequest = {}, aError = {}", JSON.toJSONString(aRequest), JSON.toJSONString(aError));
     }
 
     @Override
