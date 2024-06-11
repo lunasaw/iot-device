@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.aliyun.alink.linkkit.api.ILinkKit;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
 
@@ -66,6 +65,7 @@ public class ResourceReportService {
         OutputParams params = new OutputParams(thingDataDTO.getValue());
         LinkKit.getInstance().getDeviceThing().thingEventPost(thingDataDTO.getIdentifier(), params, iotPublishResourceListener);
     }
+
     /**
      * 发送属性
      * 
@@ -78,7 +78,6 @@ public class ResourceReportService {
         if (!ThingTypeEnums.PROPERTY.getValue().equals(thingDataDTO.getType())) {
             return;
         }
-        ILinkKit iLinkKit = LinkKit.getInstance();
-        iLinkKit.getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
+        LinkKit.getInstance().getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
     }
 }

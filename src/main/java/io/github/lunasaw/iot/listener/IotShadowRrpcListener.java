@@ -2,12 +2,12 @@ package io.github.lunasaw.iot.listener;
 
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyun.alink.dm.api.IShadowRRPC;
 import com.aliyun.alink.linksdk.cmp.core.base.ARequest;
 import com.aliyun.alink.linksdk.cmp.core.base.AResponse;
@@ -31,17 +31,17 @@ public class IotShadowRrpcListener implements IShadowRRPC {
 
     @Override
     public void onSubscribeSuccess(ARequest aRequest) {
-        log.info("设备影子下行订阅成功 onSubscribeSuccess::aRequest = {}", aRequest);
+        log.info("设备影子下行订阅成功 onSubscribeSuccess::aRequest = {}", JSON.toJSONString(aRequest));
     }
 
     @Override
-    public void onSubscribeFailed(ARequest aRequest, AError aError) {
-        log.info("设备影子下行订阅失败 onSubscribeFailed::aRequest = {}, aError = {}", JSON.toJSONString(aRequest), JSON.toJSONString(aError));
+    public void onSubscribeFailed(ARequest request, AError aError) {
+        log.info("设备影子下行订阅失败 onSubscribeFailed::request = {}, aError = {}", JSON.toJSONString(request), JSON.toJSONString(aError));
     }
 
     @Override
     public void onReceived(ARequest request, AResponse response, IConnectRrpcHandle iConnectRrpcHandle) {
-        log.info("收到设备影子下行指令 onReceived::request = {}, response = {}, ", request, response);
+        log.info("收到设备影子下行指令 onReceived::request = {}, response = {}, ", JSON.toJSONString(request), JSON.toJSONString(response));
 
         if (response == null) {
             return;

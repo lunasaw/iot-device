@@ -1,6 +1,5 @@
 package io.github.lunasaw.iot.shadow;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @Order(9)
-public class IotShadowService implements InitializingBean {
+public class IotShadowService {
 
     @Autowired
     private IConnectSendListener  iConnectSendListener;
@@ -35,12 +34,7 @@ public class IotShadowService implements InitializingBean {
         LinkKit.getInstance().getDeviceShadow().shadowUpload(value, iConnectSendListener);
     }
 
-    private void setShadowHandlers() {
+    public void setShadowHandlers() {
         LinkKit.getInstance().getDeviceShadow().setShadowChangeListener(iotShadowRRPCListener);
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        setShadowHandlers();
     }
 }
