@@ -7,8 +7,8 @@ package io.github.lunasaw.iot.common.constant;
 public interface IotDeviceConstant {
 
     interface Device {
-        String PRODUCT_KEY      = "PRODUCT_KEY";
-        String DEVICE_NAME      = "DEVICE_NAME";
+        String PRODUCT_KEY      = "productKey";
+        String DEVICE_NAME      = "deviceName";
         String DEVICE_SECRET    = "DEVICE_SECRET";
         String FIRMWARE_VERSION = "1.0.2";
     }
@@ -16,5 +16,10 @@ public interface IotDeviceConstant {
     interface Identify {
         String SERVICE_SET = "set";
         String SERVICE_GET = "get";
+    }
+
+    interface TOPIC {
+
+        String POST_REPLY = "/sys/{productKey}/{deviceName}/thing/event/property/post_reply";
     }
 }
