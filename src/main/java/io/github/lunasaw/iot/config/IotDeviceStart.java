@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 
-import com.luna.common.check.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.aliyun.alink.dm.api.DeviceInfo;
 import com.aliyun.alink.linkkit.api.*;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
+import com.luna.common.check.Assert;
 
 import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class IotDeviceStart implements InitializingBean {
     @Autowired
     private IotConfig               iotConfig;
     @Autowired
-    private ILinkKitConnectListener     iLinkKitConnectListener;
+    private ILinkKitConnectListener iLinkKitConnectListener;
 
     public IotDeviceStart(IotConfig iotConfig) {
         this.iotConfig = iotConfig;
@@ -96,20 +96,15 @@ public class IotDeviceStart implements InitializingBean {
         Assert.notNull(product, "product is null");
         IotConfig.IotDevice device = product.getDevice();
         Assert.notNull(device, "device is null");
-
-        LinkKitInitParams params = new LinkKitInitParams();
-
         String productKey = product.getProductKey();
         String productSecret = product.getProductSecret();
         String deviceName = device.getDeviceName();
         String deviceSecret = device.getDeviceSecret();
 
+        LinkKitInitParams params = new LinkKitInitParams();
         params.mqttClientConfig = getIoTMqttClientConfig(productKey, deviceName, deviceSecret);
-
         params.deviceInfo = getDeviceInfo(productKey, productSecret, deviceName, deviceSecret);
-
         params.propertyValues = getPropertyValues();
-
         params.fmVersion = device.getFirmwareVersion();
 
         /**
