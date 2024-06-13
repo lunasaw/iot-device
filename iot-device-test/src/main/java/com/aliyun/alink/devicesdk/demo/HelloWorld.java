@@ -159,7 +159,7 @@ public class HelloWorld {
         /**
          * 测试网关子设备管理功能，高级版功能
          */
-        // testGateway(deviceInfoData);
+        testGateway(deviceInfoData);
 
         /**
          * 测试获取设备影子

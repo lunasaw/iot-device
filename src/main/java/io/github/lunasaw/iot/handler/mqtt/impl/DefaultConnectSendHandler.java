@@ -8,4 +8,6 @@ import org.springframework.stereotype.Component;
  * @date 2024/6/10
  */
 @Component
-public class DefaultConnectSendHandler extends AbstractConnectSendHandler {}
+public class DefaultConnectSendHandler extends AbstractConnectSendHandler {
+
+}

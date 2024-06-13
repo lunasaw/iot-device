@@ -18,8 +18,12 @@ public interface IotDeviceConstant {
         String SERVICE_GET = "get";
     }
 
-    interface TOPIC {
+    interface Topic {
 
         String POST_REPLY = "/sys/{productKey}/{deviceName}/thing/event/property/post_reply";
+    }
+
+    interface Method {
+        String THIND_SUB_REGISTER = "thing.sub.register";
     }
 }

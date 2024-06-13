@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 
+import io.github.lunasaw.iot.domain.bo.IotDeviceBO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 import com.luna.common.check.Assert;
 
 import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
+import io.github.lunasaw.iot.domain.bo.IotSubDeviceBO;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({IotConfig.class, IotConfig.IotProduct.class, IotConfig.IotDevice.class, IotConfig.IotSubDevice.class})
+@EnableConfigurationProperties({IotConfig.class, IotConfig.IotProduct.class, IotDeviceBO.class, IotSubDeviceBO.class})
 public class IotDeviceStart implements InitializingBean {
 
     @Autowired
@@ -94,7 +96,7 @@ public class IotDeviceStart implements InitializingBean {
     public void init() {
         IotConfig.IotProduct product = iotConfig.getProduct();
         Assert.notNull(product, "product is null");
-        IotConfig.IotDevice device = product.getDevice();
+        IotDeviceBO device = product.getDevice();
         Assert.notNull(device, "device is null");
         String productKey = product.getProductKey();
         String productSecret = product.getProductSecret();

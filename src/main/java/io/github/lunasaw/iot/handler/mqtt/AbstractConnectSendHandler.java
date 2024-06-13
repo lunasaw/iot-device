@@ -20,7 +20,7 @@ public class AbstractConnectSendHandler implements ConnectSendHandler {
 
     @Override
     public void onFailure(RequestSendDTO requestSendDTO) {
-        log.info("onFailure::requestSendDTO = {}", requestSendDTO);
+        log.error("onFailure::requestSendDTO = {}", requestSendDTO);
     }
 
     @Override
