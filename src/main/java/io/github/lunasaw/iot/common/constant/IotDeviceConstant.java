@@ -24,6 +24,6 @@ public interface IotDeviceConstant {
     }
 
     interface Method {
-        String THIND_SUB_REGISTER = "thing.sub.register";
+        String THING_SUB_REGISTER = "thing.sub.register";
     }
 }

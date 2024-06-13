@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.luna.common.constant.StrPoolConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
@@ -27,7 +28,7 @@ public class IotDeviceBO {
 
     public static void addSubDevice(List<IotSubDeviceBO> list) {
         for (IotSubDeviceBO iotSubDeviceBO : list) {
-            SUB_DEVICE_BO_MAP.put(iotSubDeviceBO.getIotId(), iotSubDeviceBO);
+            SUB_DEVICE_BO_MAP.put(iotSubDeviceBO.getProductKey() + StrPoolConstant.UNDERLINE + iotSubDeviceBO.getDeviceName(), iotSubDeviceBO);
         }
     }
 }

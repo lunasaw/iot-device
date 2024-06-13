@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import io.github.lunasaw.iot.domain.bo.IotSubDeviceBO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +17,7 @@ import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSendListener;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
+import io.github.lunasaw.iot.domain.bo.IotSubDeviceBO;
 import io.github.lunasaw.iot.gateway.callback.IotIDMCallback;
 
 /**
@@ -24,6 +25,7 @@ import io.github.lunasaw.iot.gateway.callback.IotIDMCallback;
  * @date 2024/6/13
  */
 @Component
+@Slf4j
 public class GatewayService {
 
     @Autowired
@@ -31,6 +33,13 @@ public class GatewayService {
 
     @Autowired
     private IotIDMCallback<InitResult> iotIDMCallback;
+
+    /**
+     * 获取子设备列表
+     */
+    public void gatewayGetSubDevices() {
+        LinkKit.getInstance().getGateway().gatewayGetSubDevices(connectSendListener);
+    }
 
     /**
      * 获取设备物模型
@@ -72,6 +81,10 @@ public class GatewayService {
      * @param subDeviceList
      */
     public void gatewaySubDeviceRegister(List<BaseInfo> subDeviceList) {
+        if (!LinkKit.getInstance().getDeviceThing().isThingInited()) {
+            log.error("device::isThingInited = {} ", false);
+            return;
+        }
         LinkKit.getInstance().getGateway().gatewaySubDevicRegister(subDeviceList, connectSendListener);
     }
 

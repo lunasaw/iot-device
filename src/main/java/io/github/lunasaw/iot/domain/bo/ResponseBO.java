@@ -13,7 +13,7 @@ public class ResponseBO<T> {
     private int     code;
 
     @JSONField(name = "data")
-    private List<T> data;
+    private T      data;
 
     @JSONField(name = "method")
     private String  method;

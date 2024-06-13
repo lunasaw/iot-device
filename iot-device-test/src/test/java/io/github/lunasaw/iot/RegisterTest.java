@@ -39,6 +39,8 @@ public class RegisterTest extends ApiTest {
     public void btest() {
         List<IotSubDeviceBO> iotSubDeviceBOS = iotConfig.getProduct().getDevice().getIotSubDeviceBOS();
         gatewayService.gatewaySubDeviceRegister(iotSubDeviceBOS);
+
+        gatewayService.gatewayGetSubDevices();
     }
 
     @Test
