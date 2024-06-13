@@ -1,5 +1,6 @@
-package io.github.lunasaw.iot.handler.mqtt;
+package io.github.lunasaw.iot.handler.mqtt.impl;
 
+import io.github.lunasaw.iot.handler.mqtt.AbstractConnectSendHandler;
 import org.springframework.stereotype.Component;
 
 /**

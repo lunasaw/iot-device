@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IotConnectSendListener implements IConnectSendListener {
 
-    @Autowired(required = false)
+    @Autowired
     private List<ConnectSendHandler> connectSendHandlers;
 
     /**

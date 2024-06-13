@@ -2,12 +2,12 @@ package io.github.lunasaw.iot.listener;
 
 import java.util.List;
 
-import com.aliyun.alink.linkkit.api.LinkKit;
-import com.aliyun.alink.linksdk.cmp.connect.channel.MqttPublishRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.cmp.core.base.AMessage;
 import com.aliyun.alink.linksdk.cmp.core.base.ConnectState;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectNotifyListener;
@@ -37,9 +37,8 @@ public class IotConnectNotifyListener implements IConnectNotifyListener, Initial
     @Autowired
     private List<MessageNotifyHandler> messageNotifyHandlerList;
 
-
     public void onNotify(String connectId, String topic, AMessage aMessage) {
-        if (connectId == null || org.apache.commons.lang3.StringUtils.isBlank(topic)) {
+        if (connectId == null || StringUtils.isBlank(topic)) {
             return;
         }
 

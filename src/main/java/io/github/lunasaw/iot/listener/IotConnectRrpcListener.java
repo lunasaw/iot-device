@@ -17,7 +17,7 @@ import com.aliyun.alink.linksdk.cmp.core.listener.IConnectRrpcListener;
 import com.aliyun.alink.linksdk.tools.AError;
 
 import io.github.lunasaw.iot.domain.dto.CotaDTO;
-import io.github.lunasaw.iot.handler.cota.shadow.CotaHandler;
+import io.github.lunasaw.iot.handler.cota.CotaHandler;
 
 /**
  * @author luna
