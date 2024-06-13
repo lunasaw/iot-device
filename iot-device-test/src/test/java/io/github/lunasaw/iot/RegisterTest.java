@@ -35,8 +35,8 @@ public class RegisterTest extends ApiTest {
             product.getProductKey(), IotDeviceConstant.Device.DEVICE_NAME, product.getDevice().getDeviceName()));
 
         PublishMessageDTO publishMessageDTO = new PublishMessageDTO();
-        publishMessageDTO.addReportThingsProperty("LightSwitch", 1);
-        publishMessageDTO.addReportThingsProperty("LightCurrent", 7.8);
+        publishMessageDTO.addReportThingsProperty("disk_usage", 88);
+        publishMessageDTO.addReportThingsProperty("cpu_core_number", 4);
 
         resourceReportService.publish(publishMessageDTO);
 

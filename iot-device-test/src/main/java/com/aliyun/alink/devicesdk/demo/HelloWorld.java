@@ -400,6 +400,7 @@ public class HelloWorld {
      */
     private void testGateway(DeviceInfoData deviceInfoData) {
         GatewaySample sample = new GatewaySample(pk, dn, deviceInfoData.subDevice);
+
         sample.getSubDevices();
         // 注册 + 添加 + 登录 + 上报
         sample.subdevRegister();

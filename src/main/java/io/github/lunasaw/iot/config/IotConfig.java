@@ -1,5 +1,7 @@
 package io.github.lunasaw.iot.config;
 
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
@@ -48,15 +50,26 @@ public class IotConfig {
      */
     @Slf4j
     @Data
-    @ConfigurationProperties(prefix = "iot.device")
+    @ConfigurationProperties(prefix = "iot.product.device")
     public static class IotDevice {
 
-        private String deviceSecret;
+        private String             deviceSecret;
 
-        private String deviceName;
+        private String             deviceName;
 
-        private String firmwareVersion = IotDeviceConstant.Device.FIRMWARE_VERSION;
+        private String             firmwareVersion = IotDeviceConstant.Device.FIRMWARE_VERSION;
 
+        private List<IotSubDevice> iotSubDevices;
+    }
+
+    @Slf4j
+    @Data
+    @ConfigurationProperties(prefix = "iot.product.device.iot-sub-devices")
+    public static class IotSubDevice {
+
+        public String productKey;
+
+        public String deviceName;
     }
 
 }

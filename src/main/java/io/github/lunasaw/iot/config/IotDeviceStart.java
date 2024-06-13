@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({IotConfig.class, IotConfig.IotProduct.class, IotConfig.IotDevice.class})
+@EnableConfigurationProperties({IotConfig.class, IotConfig.IotProduct.class, IotConfig.IotDevice.class, IotConfig.IotSubDevice.class})
 public class IotDeviceStart implements InitializingBean {
 
     @Autowired
