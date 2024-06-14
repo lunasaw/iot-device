@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +18,11 @@ import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.domain.bo.IotSubDeviceBO;
 import io.github.lunasaw.iot.gateway.callback.IotIDMCallback;
+import io.github.lunasaw.iot.handler.sub.SubDeviceActionHandler;
+import io.github.lunasaw.iot.listener.IotConnectRrpcListener;
+import io.github.lunasaw.iot.listener.sub.IotSubDeviceActionListener;
+import io.github.lunasaw.iot.listener.sub.IotSubDeviceConnectListener;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author luna
@@ -29,21 +33,17 @@ import io.github.lunasaw.iot.gateway.callback.IotIDMCallback;
 public class GatewayService {
 
     @Autowired
-    private IConnectSendListener       connectSendListener;
+    private IConnectSendListener         connectSendListener;
 
     @Autowired
-    private IotIDMCallback<InitResult> iotIDMCallback;
+    private IotIDMCallback<InitResult>   iotIDMCallback;
 
-    /**
-     * 获取子设备列表
-     */
-    public void gatewayGetSubDevices() {
-        LinkKit.getInstance().getGateway().gatewayGetSubDevices(connectSendListener);
-    }
+    @Autowired
+    private List<SubDeviceActionHandler> subDeviceActionHandlers;
 
     /**
      * 获取设备物模型
-     * 
+     *
      * @param deviceInfo
      * @param propertyValues
      */
@@ -53,13 +53,61 @@ public class GatewayService {
 
     /**
      * 获取设备物模型
-     * 
+     *
      * @param tsl
      * @param deviceInfo
      * @param propertyValues
      */
     public void initSubDeviceThing(String tsl, DeviceInfo deviceInfo, Map<String, ValueWrapper> propertyValues) {
         LinkKit.getInstance().getGateway().initSubDeviceThing(tsl, deviceInfo, propertyValues, iotIDMCallback);
+    }
+
+    /**
+     * 网关设备可以在云端控制子设备，如禁用子设备、启用子设备、删除网关与子设备的拓扑关系。目前服务端只支持禁用子设备的下行通知。服务端在禁用子设备时，会对子设备做下线处理，后续网关将不能代理子设备和云端做通信
+     * 
+     * @param deviceInfo
+     * @param iotConnectRrpcListener
+     */
+    public void gatewaySetSubDeviceDisableListener(DeviceInfo deviceInfo, IotConnectRrpcListener iotConnectRrpcListener) {
+        LinkKit.getInstance().getGateway().gatewaySetSubDeviceDisableListener(deviceInfo, iotConnectRrpcListener);
+    }
+
+    /**
+     * 当子设备离线之后，网关需要通知物联网平台子设备离线，以避免物联网平台向子设备发送数据。子设备下线之后不可以进行子设备的发布、订阅、取消订阅等操作。
+     * 
+     * @param deviceInfo
+     */
+    public void gatewaySubDeviceLogout(DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().gatewaySubDeviceLogout(deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+    }
+
+    /**
+     * 调用子设备上线之前，请确保已完成子设备添加。网关发现子设备连上网关之后，需要通知物联网平台子设备上线，子设备上线后可以执行子设备的订阅、发布等操作。
+     * 由于接口调用都是异步的，子设备上线接口不能在子设备添加的相关代码的下一行调用，需在子设备添加成功的回调里面调用。
+     * {@link GatewayService#gatewayAddSubDevice(DeviceInfo)} 在这里添加后，IotSubDeviceConnectListener会触发上线
+     * 
+     * @param deviceInfo
+     */
+    private void gatewaySubDeviceLogin(DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+    }
+
+    /**
+     * 网关发现并连接了一个新的子设备，并获取到子设备的认证信息后，可以通知物联网平台网关需要添加一个子设备。
+     * 网关重启并连接到物联网平台后，对连接的子设备需要再次调用添加子设备方法。
+     * 设备添加
+     * 
+     * @param deviceInfo
+     */
+    public void gatewayAddSubDevice(DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().gatewayAddSubDevice(deviceInfo, new IotSubDeviceConnectListener(deviceInfo, subDeviceActionHandlers));
+    }
+
+    /**
+     * 获取子设备列表
+     */
+    public void gatewayGetSubDevices() {
+        LinkKit.getInstance().getGateway().gatewayGetSubDevices(connectSendListener);
     }
 
     /**

@@ -9,6 +9,8 @@ public interface IotDeviceConstant {
     interface Device {
         String PRODUCT_KEY      = "productKey";
         String DEVICE_NAME      = "deviceName";
+        String CLIENT_ID        = "clientId";
+
         String DEVICE_SECRET    = "DEVICE_SECRET";
         String FIRMWARE_VERSION = "1.0.2";
     }
