@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
+import io.github.lunasaw.iot.gateway.GatewayService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -25,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHandler {
+
+    @Autowired
+    private GatewayService gatewayService;
 
     public static void main(String[] args) {
         String data =
@@ -47,6 +52,12 @@ public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHand
             return;
         }
         IotDeviceBO.addSubDevice(data);
+
+        // 设备添加
+        for (IotSubDeviceBO iotSubDeviceBO : data) {
+            gatewayService.gatewayAddSubDevice(iotSubDeviceBO.toDeviceInfo());
+        }
+
     }
 
     @Override

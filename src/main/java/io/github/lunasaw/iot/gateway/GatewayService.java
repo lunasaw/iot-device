@@ -48,7 +48,8 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceSubscribe(String topic, DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceSubscribe(topic, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceSubscribe(topic, deviceInfo,
+            new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceSubscribe"));
     }
 
     /**
@@ -59,7 +60,8 @@ public class GatewayService {
      * @param publishData
      */
     public void gatewaySubDeviceSubscribe(String topic, DeviceInfo deviceInfo, String publishData) {
-        LinkKit.getInstance().getGateway().gatewaySubDevicePublish(topic, publishData, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDevicePublish(topic, publishData, deviceInfo,
+            new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceSubscribe"));
     }
 
     /**
@@ -69,7 +71,8 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceUnsubscribe(String topic, DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceUnsubscribe(topic, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceUnsubscribe(topic, deviceInfo,
+            new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceUnsubscribe"));
     }
 
     /**
@@ -136,7 +139,7 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceLogout(DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceLogout(deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceLogout(deviceInfo, new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceLogout"));
     }
 
     /**
@@ -147,7 +150,7 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceLogin(DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(deviceInfo, new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceLogin"));
     }
 
     /**

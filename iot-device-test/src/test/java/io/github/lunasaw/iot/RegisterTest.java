@@ -48,12 +48,7 @@ public class RegisterTest extends ApiTest {
         gatewayService.gatewaySubDeviceRegister(iotSubDeviceBOS);
         gatewayService.gatewayGetSubDevices();
 
-        while (MapUtils.isEmpty(IotDeviceBO.SUB_DEVICE_BO_MAP)) {
-            Thread.sleep(2000);
-        }
 
-        DeviceInfo deviceInfo = iotSubDeviceBOS.get(0).toDeviceInfo();
-        gatewayService.gatewayAddSubDevice(IotDeviceBO.SUB_DEVICE_BO_MAP.get(IotDeviceBO.getKey(iotSubDeviceBOS.get(0))).toDeviceInfo());
     }
 
     @Test

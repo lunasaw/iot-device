@@ -70,8 +70,10 @@ public class IotSubDeviceConnectListener implements ISubDeviceConnectListener {
         log.info("onConnectResult::isSuccess = {}, aError = {}", isSuccess, JSON.toJSONString(aError));
         // 添加结果
         if (isSuccess) {
-            LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(info, new IotSubDeviceActionListener(info));
+            LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(info, new IotSubDeviceActionListener(info, "gatewaySubDeviceLogin"));
+            return;
         }
+        log.error("子设备连接失败 onConnectResult::isSuccess = {}, aError = {}", isSuccess, JSON.toJSONString(aError));
     }
 
     @Override
