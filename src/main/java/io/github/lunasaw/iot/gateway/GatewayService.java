@@ -9,12 +9,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.aliyun.alink.dm.api.BaseInfo;
-import com.aliyun.alink.dm.api.DeviceInfo;
-import com.aliyun.alink.dm.api.InitResult;
+import com.alibaba.fastjson.JSON;
+import com.aliyun.alink.dm.api.*;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSendListener;
 import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
+import com.aliyun.alink.linksdk.tools.AError;
 
 import io.github.lunasaw.iot.domain.bo.IotSubDeviceBO;
 import io.github.lunasaw.iot.gateway.callback.IotIDMCallback;
@@ -40,6 +40,64 @@ public class GatewayService {
 
     @Autowired
     private List<SubDeviceActionHandler> subDeviceActionHandlers;
+
+    /**
+     * 订阅
+     * 
+     * @param topic
+     * @param deviceInfo
+     */
+    public void gatewaySubDeviceSubscribe(String topic, DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().gatewaySubDeviceSubscribe(topic, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+    }
+
+    /**
+     * 发布
+     * 
+     * @param topic
+     * @param deviceInfo
+     * @param publishData
+     */
+    public void gatewaySubDeviceSubscribe(String topic, DeviceInfo deviceInfo, String publishData) {
+        LinkKit.getInstance().getGateway().gatewaySubDevicePublish(topic, publishData, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+    }
+
+    /**
+     * 取消订阅
+     * 
+     * @param topic
+     * @param deviceInfo
+     */
+    public void gatewaySubDeviceUnsubscribe(String topic, DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().gatewaySubDeviceUnsubscribe(topic, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+    }
+
+    /**
+     * 子设备物模型销毁，反初始化物模型。后续如果需要重新使用，需重新进行登录、物模型初始化流程。
+     * 
+     * @param deviceInfo
+     */
+    public void uninitSubDeviceThing(DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().uninitSubDeviceThing(deviceInfo);
+    }
+
+    /**
+     * 获取子设备物模型
+     * 
+     * @param deviceInfo
+     * @return
+     */
+    public IThing getSubDeviceThing(DeviceInfo deviceInfo) {
+        Pair<IThing, AError> deviceThing = LinkKit.getInstance().getGateway().getSubDeviceThing(deviceInfo);
+        if (deviceThing == null) {
+            return null;
+        }
+        IThing first = deviceThing.first;
+        if (first == null) {
+            log.error("getSubDeviceThing::deviceInfo = {} , error = {}", deviceInfo, JSON.toJSONString(deviceThing.second));
+        }
+        return first;
+    }
 
     /**
      * 获取设备物模型
