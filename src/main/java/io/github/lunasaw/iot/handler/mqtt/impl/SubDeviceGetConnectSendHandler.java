@@ -3,12 +3,10 @@ package io.github.lunasaw.iot.handler.mqtt.impl;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.aliyun.alink.linksdk.cmp.core.base.AResponse;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 
 import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
 import io.github.lunasaw.iot.domain.RequestSendDTO;
@@ -32,8 +30,8 @@ public class SubDeviceGetConnectSendHandler extends AbstractConnectSendHandler {
         if (boResponseBO == null) {
             return;
         }
-        List<IotSubDeviceBO> data = (List<IotSubDeviceBO>)boResponseBO.getData();
-        if (CollectionUtils.isNotEmpty(data)) {
+        List<IotSubDeviceBO> data = JSON.parseObject(JSON.toJSONString(boResponseBO.getData()), new TypeReference<List<IotSubDeviceBO>>() {});
+        if (CollectionUtils.isEmpty(data)) {
             return;
         }
         IotDeviceBO.addSubDevice(data);

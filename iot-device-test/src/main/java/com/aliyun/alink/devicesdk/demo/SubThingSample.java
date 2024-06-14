@@ -1,6 +1,6 @@
 package com.aliyun.alink.devicesdk.demo;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.alink.apiclient.utils.StringUtils;
 import com.aliyun.alink.dm.api.BaseInfo;
 import com.aliyun.alink.dm.api.IThing;

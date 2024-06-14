@@ -9,7 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.aliyun.alink.dm.api.*;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSendListener;
@@ -48,7 +48,8 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceSubscribe(String topic, DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceSubscribe(topic, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceSubscribe(topic, deviceInfo,
+            new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceSubscribe"));
     }
 
     /**
@@ -59,7 +60,8 @@ public class GatewayService {
      * @param publishData
      */
     public void gatewaySubDeviceSubscribe(String topic, DeviceInfo deviceInfo, String publishData) {
-        LinkKit.getInstance().getGateway().gatewaySubDevicePublish(topic, publishData, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDevicePublish(topic, publishData, deviceInfo,
+            new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceSubscribe"));
     }
 
     /**
@@ -69,7 +71,8 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceUnsubscribe(String topic, DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceUnsubscribe(topic, deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceUnsubscribe(topic, deviceInfo,
+            new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceUnsubscribe"));
     }
 
     /**
@@ -136,7 +139,7 @@ public class GatewayService {
      * @param deviceInfo
      */
     public void gatewaySubDeviceLogout(DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceLogout(deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+        LinkKit.getInstance().getGateway().gatewaySubDeviceLogout(deviceInfo, new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceLogout"));
     }
 
     /**
@@ -146,8 +149,8 @@ public class GatewayService {
      * 
      * @param deviceInfo
      */
-    private void gatewaySubDeviceLogin(DeviceInfo deviceInfo) {
-        LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(deviceInfo, new IotSubDeviceActionListener(deviceInfo));
+    public void gatewaySubDeviceLogin(DeviceInfo deviceInfo) {
+        LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(deviceInfo, new IotSubDeviceActionListener(deviceInfo, "gatewaySubDeviceLogin"));
     }
 
     /**

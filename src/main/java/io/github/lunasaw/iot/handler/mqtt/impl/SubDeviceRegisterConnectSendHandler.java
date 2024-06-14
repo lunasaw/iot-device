@@ -2,13 +2,13 @@ package io.github.lunasaw.iot.handler.mqtt.impl;
 
 import java.util.List;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
+import io.github.lunasaw.iot.gateway.GatewayService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.aliyun.alink.linksdk.cmp.core.base.AResponse;
 
 import io.github.lunasaw.iot.common.constant.IotDeviceConstant;
 import io.github.lunasaw.iot.domain.RequestSendDTO;
@@ -19,6 +19,8 @@ import io.github.lunasaw.iot.handler.mqtt.AbstractConnectSendHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * RegisterConnect
+ * 
  * @author luna
  * @date 2024/6/10
  */
@@ -26,6 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHandler {
 
+    @Autowired
+    private GatewayService gatewayService;
+
+    public static void main(String[] args) {
+        String data =
+            "{\"code\":200,\"data\":[{\"deviceSecret\":\"664f57b42bffcfbf3f76e7393475263d\",\"productKey\":\"k1f4kl0qmEU\",\"deviceName\":\"luna_camera\"}],\"id\":\"2\",\"message\":\"success\",\"method\":\"thing.topo.get\",\"version\":\"1.0\"}";
+
+        ResponseBO boResponseBO = JSON.parseObject(data, new TypeReference<ResponseBO<List<IotSubDeviceBO>>>() {});
+        System.out.println(JSON.toJSONString(boResponseBO));
+    }
 
     @Override
     public void onResponse(RequestSendDTO requestSendDTO) {
@@ -35,11 +47,17 @@ public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHand
         if (boResponseBO == null) {
             return;
         }
-        List<IotSubDeviceBO> data = (List<IotSubDeviceBO>)boResponseBO.getData();
-        if (CollectionUtils.isNotEmpty(data)) {
+        List<IotSubDeviceBO> data = JSON.parseObject(JSON.toJSONString(boResponseBO.getData()), new TypeReference<List<IotSubDeviceBO>>() {});
+        if (CollectionUtils.isEmpty(data)) {
             return;
         }
         IotDeviceBO.addSubDevice(data);
+
+        // 设备添加
+        for (IotSubDeviceBO iotSubDeviceBO : data) {
+            gatewayService.gatewayAddSubDevice(iotSubDeviceBO.toDeviceInfo());
+        }
+
     }
 
     @Override
@@ -52,13 +70,5 @@ public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHand
             return false;
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        String data =
-            "{\"code\":200,\"data\":[{\"deviceSecret\":\"664f57b42bffcfbf3f76e7393475263d\",\"productKey\":\"k1f4kl0qmEU\",\"deviceName\":\"luna_camera\"}],\"id\":\"2\",\"message\":\"success\",\"method\":\"thing.topo.get\",\"version\":\"1.0\"}";
-
-        ResponseBO boResponseBO = JSON.parseObject(data, new TypeReference<ResponseBO<List<IotSubDeviceBO>>>() {});
-        System.out.println(JSON.toJSONString(boResponseBO));
     }
 }

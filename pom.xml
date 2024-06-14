@@ -6,7 +6,7 @@
 
     <groupId>io.github.lunasaw</groupId>
     <artifactId>iot-device</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>iot-device</name>
     <description>ZLMediaKit restful api and hook starter</description>
@@ -81,6 +81,12 @@
                 <artifactId>lp-iot-linkkit-java</artifactId>
                 <version>${aliyun.iot.client.sdk.version}</version>
                 <scope>compile</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>fastjson</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

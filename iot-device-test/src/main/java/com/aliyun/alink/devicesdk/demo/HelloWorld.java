@@ -7,7 +7,7 @@ import java.util.Map;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.alink.apiclient.CommonRequest;
 import com.aliyun.alink.apiclient.CommonResponse;
 import com.aliyun.alink.apiclient.IoTCallback;

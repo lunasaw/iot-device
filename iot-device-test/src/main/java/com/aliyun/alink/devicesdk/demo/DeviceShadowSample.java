@@ -1,7 +1,7 @@
 package com.aliyun.alink.devicesdk.demo;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.aliyun.alink.apiclient.threadpool.ThreadPool;
 import com.aliyun.alink.dm.api.IShadowRRPC;
 import com.aliyun.alink.dm.shadow.ShadowResponse;

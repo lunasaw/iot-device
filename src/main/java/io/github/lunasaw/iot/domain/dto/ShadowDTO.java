@@ -1,7 +1,7 @@
 package io.github.lunasaw.iot.domain.dto;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.aliyun.alink.dm.shadow.ShadowResponse;
 import com.aliyun.alink.linksdk.tools.ALog;
 import lombok.AllArgsConstructor;

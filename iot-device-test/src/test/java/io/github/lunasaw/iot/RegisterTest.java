@@ -1,6 +1,11 @@
 package io.github.lunasaw.iot;
 
+import com.aliyun.alink.dm.api.DeviceInfo;
+import io.github.lunasaw.iot.domain.bo.IotDeviceBO;
 import io.github.lunasaw.iot.domain.bo.IotSubDeviceBO;
+import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,7 @@ import io.github.lunasaw.iot.mqtt.MqttRequestService;
 import io.github.lunasaw.iot.publish.ResourceReportService;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author luna
@@ -35,12 +41,14 @@ public class RegisterTest extends ApiTest {
     @Autowired
     private GatewayService        gatewayService;
 
+    @SneakyThrows
     @Test
     public void btest() {
-        List<IotSubDeviceBO> iotSubDeviceBOS = iotConfig.getProduct().getDevice().getIotSubDeviceBOS();
+        List<IotSubDeviceBO> iotSubDeviceBOS = iotConfig.getProduct().getDevice().getIotSubDevices();
         gatewayService.gatewaySubDeviceRegister(iotSubDeviceBOS);
-
         gatewayService.gatewayGetSubDevices();
+
+
     }
 
     @Test
