@@ -2,6 +2,7 @@ package io.github.lunasaw.iot.listener;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IotConnectSendListener implements IConnectSendListener {
 
-    @Autowired(required = false)
+    @Autowired
     private List<ConnectSendHandler> connectSendHandlers;
 
     /**
@@ -38,6 +39,7 @@ public class IotConnectSendListener implements IConnectSendListener {
      */
     @Override
     public void onResponse(ARequest request, AResponse response) {
+        log.info("onResponse::request = {}, response = {}", JSON.toJSONString(request), JSON.toJSONString(response));
         if (CollectionUtils.isEmpty(connectSendHandlers)) {
             return;
         }

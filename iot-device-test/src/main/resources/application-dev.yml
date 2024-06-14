@@ -4,10 +4,13 @@ iot:
   mqtt-host-url: ssl://${iot.iot-instance-id}.mqtt.iothub.aliyuncs.com:8883
   product:
     # 使用环境变量配置，避免泄漏 -Diot.productKey=xxx -Diot.productSecret=xxx
-    product-key: k1f4kl0qmEU
-    product-secret: JFWnHFz09rro0nU4
+    product-key: k1f4kO1XKzG
+    product-secret: xf1Dy8HR0VgMED86
     device:
-      device-name: luna_camera
-      device-secret: 664f57b42bffcfbf3f76e7393475263d
+      device-name: sub_device
+      device-secret: df4713301875df889daa8206f1fb4193
+      iot-sub-devices:
+        - product-key: k1f4kl0qmEU
+          device-name: luna_camera
 
 

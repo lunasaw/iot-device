@@ -80,6 +80,10 @@ public class MqttRequestService {
         LinkKit.getInstance().publish(request, iConnectSendListener);
     }
 
+    public void subscribe(String topic) {
+        subscribe(topic, true);
+    }
+
     public void subscribe(String topic, boolean isSubscribe) {
         MqttSubscribeRequest request = new MqttSubscribeRequest();
         request.topic = topic;

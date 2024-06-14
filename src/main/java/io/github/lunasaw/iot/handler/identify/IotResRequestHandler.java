@@ -3,7 +3,7 @@ package io.github.lunasaw.iot.handler.identify;
 import java.util.List;
 import java.util.Map;
 
-import io.github.lunasaw.iot.config.IotDeviceStart;
+import com.luna.common.exception.BaseException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,14 +76,13 @@ public class IotResRequestHandler implements ITResRequestHandler {
         } catch (Exception e) {
             log.error("onProcess::identify = {}, result = {}", identify, JSON.toJSONString(result), e);
             AError error = new AError();
-            error.setCode(100);
-            error.setMsg("setPropertyFailed.");
+            error.setCode(BaseException.SYSTEM_ERROR.getCode());
+            error.setMsg(BaseException.SYSTEM_ERROR.getMessage());
             callback.onComplete(identify, new ErrorInfo(error), null);
         }
     }
 
     public void onSuccess(Object o, OutputParams outputParams) {
-        log.info("onSuccess::o = {}, outputParams = {}", o, outputParams);
     }
 
     public void onFail(Object o, ErrorInfo errorInfo) {

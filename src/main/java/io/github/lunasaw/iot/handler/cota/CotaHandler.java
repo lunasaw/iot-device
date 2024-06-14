@@ -1,4 +1,4 @@
-package io.github.lunasaw.iot.handler.cota.shadow;
+package io.github.lunasaw.iot.handler.cota;
 
 import io.github.lunasaw.iot.domain.dto.CotaDTO;
 

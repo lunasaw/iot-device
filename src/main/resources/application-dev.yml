@@ -9,5 +9,7 @@ iot:
     device:
       device-name: luna_camera
       device-secret: 664f57b42bffcfbf3f76e7393475263d
-
+      iot-sub-devices:
+        - product-key: k1f4kl0qmEU
+          device-name: luna_camera
 

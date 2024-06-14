@@ -1,14 +1,17 @@
 package io.github.lunasaw.iot.publish;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.alink.dm.api.IThing;
 import com.aliyun.alink.linkkit.api.LinkKit;
 import com.aliyun.alink.linksdk.tmp.api.OutputParams;
+import com.aliyun.alink.linksdk.tmp.device.payload.ValueWrapper;
 
 import io.github.lunasaw.iot.common.enums.ThingTypeEnums;
 import io.github.lunasaw.iot.domain.PublishMessageDTO;
@@ -78,6 +81,16 @@ public class ResourceReportService {
         if (!ThingTypeEnums.PROPERTY.getValue().equals(thingDataDTO.getType())) {
             return;
         }
-        LinkKit.getInstance().getDeviceThing().thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
+        thingPropertyPost(LinkKit.getInstance().getDeviceThing(), thingDataDTO);
+    }
+
+    /**
+     * 发送属性
+     * 
+     * @param thing
+     * @param thingDataDTO
+     */
+    public void thingPropertyPost(IThing thing, ThingDataDTO thingDataDTO) {
+        thing.thingPropertyPost(thingDataDTO.getValue(), iotPublishResourceListener);
     }
 }

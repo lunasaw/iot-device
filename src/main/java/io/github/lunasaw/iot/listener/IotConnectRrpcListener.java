@@ -17,7 +17,7 @@ import com.aliyun.alink.linksdk.cmp.core.listener.IConnectRrpcListener;
 import com.aliyun.alink.linksdk.tools.AError;
 
 import io.github.lunasaw.iot.domain.dto.CotaDTO;
-import io.github.lunasaw.iot.handler.cota.shadow.CotaHandler;
+import io.github.lunasaw.iot.handler.cota.CotaHandler;
 
 /**
  * @author luna
@@ -49,22 +49,23 @@ public class IotConnectRrpcListener implements IConnectRrpcListener, Initializin
 
     @Override
     public void onSubscribeFailed(ARequest aRequest, AError aError) {
-
+        log.info("onSubscribeFailed::aRequest = {}, aError = {}", JSON.toJSONString(aRequest), JSON.toJSONString(aError));
     }
 
     @Override
     public void onReceived(ARequest aRequest, IConnectRrpcHandle iConnectRrpcHandle) {
-
+        log.info("onReceived::aRequest = {}", JSON.toJSONString(aRequest));
+        iConnectRrpcHandle.onRrpcResponse(null, null);
     }
 
     @Override
     public void onResponseSuccess(ARequest aRequest) {
-
+        log.info("onResponseSuccess::aRequest = {}", JSON.toJSONString(aRequest));
     }
 
     @Override
     public void onResponseFailed(ARequest aRequest, AError aError) {
-
+        log.info("onResponseFailed::aRequest = {}, aError = {}", JSON.toJSONString(aRequest), JSON.toJSONString(aError));
     }
 
     @Override

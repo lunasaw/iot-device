@@ -7,6 +7,7 @@ import com.aliyun.alink.dm.api.InitResult;
 import com.aliyun.alink.linkkit.api.ILinkKitConnectListener;
 import com.aliyun.alink.linksdk.tools.AError;
 
+import io.github.lunasaw.iot.gateway.GatewayService;
 import io.github.lunasaw.iot.handler.identify.IotResRequestHandler;
 import io.github.lunasaw.iot.shadow.IotShadowService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,9 @@ public class IotLinkKitConnectListener implements ILinkKitConnectListener {
     @Autowired
     private IotShadowService     iotShadowService;
 
+    @Autowired
+    private GatewayService       gatewayService;
+
     @Override
     public void onError(AError aError) {
         log.error("onError::aError = {} ", aError);
@@ -32,7 +36,10 @@ public class IotLinkKitConnectListener implements ILinkKitConnectListener {
 
     @Override
     public void onInitDone(InitResult initResult) {
+        // 设备处理器
         iotResRequestHandler.setServiceHandler();
+        // 影子设备
         iotShadowService.setShadowHandlers();
+        // TODO 连接子设备
     }
 }

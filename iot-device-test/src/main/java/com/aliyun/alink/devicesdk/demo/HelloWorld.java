@@ -159,7 +159,7 @@ public class HelloWorld {
         /**
          * 测试网关子设备管理功能，高级版功能
          */
-        // testGateway(deviceInfoData);
+        testGateway(deviceInfoData);
 
         /**
          * 测试获取设备影子
@@ -400,6 +400,7 @@ public class HelloWorld {
      */
     private void testGateway(DeviceInfoData deviceInfoData) {
         GatewaySample sample = new GatewaySample(pk, dn, deviceInfoData.subDevice);
+
         sample.getSubDevices();
         // 注册 + 添加 + 登录 + 上报
         sample.subdevRegister();
