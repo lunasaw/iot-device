@@ -2,7 +2,7 @@ package io.github.lunasaw.iot.listener;
 
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.alink.linksdk.channel.core.base.AError;
 import com.aliyun.alink.linksdk.channel.core.base.ARequest;
 import com.aliyun.alink.linksdk.channel.core.base.AResponse;

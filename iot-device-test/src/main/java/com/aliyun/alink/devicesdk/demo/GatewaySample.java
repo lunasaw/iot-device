@@ -1,7 +1,7 @@
 package com.aliyun.alink.devicesdk.demo;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.aliyun.alink.dm.api.*;
 import com.aliyun.alink.dm.model.ResponseModel;
 import com.aliyun.alink.linkkit.api.LinkKit;

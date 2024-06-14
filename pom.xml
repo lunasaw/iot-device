@@ -81,6 +81,12 @@
                 <artifactId>lp-iot-linkkit-java</artifactId>
                 <version>${aliyun.iot.client.sdk.version}</version>
                 <scope>compile</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>fastjson</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

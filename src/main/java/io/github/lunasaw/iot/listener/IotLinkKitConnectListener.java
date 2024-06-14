@@ -1,5 +1,7 @@
 package io.github.lunasaw.iot.listener;
 
+import com.alibaba.fastjson2.JSON;
+import io.github.lunasaw.iot.domain.bo.IotDeviceBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +38,8 @@ public class IotLinkKitConnectListener implements ILinkKitConnectListener {
 
     @Override
     public void onInitDone(InitResult initResult) {
+        log.info("onInitDone::initResult = {}", JSON.toJSONString(initResult));
+
         // 设备处理器
         iotResRequestHandler.setServiceHandler();
         // 影子设备

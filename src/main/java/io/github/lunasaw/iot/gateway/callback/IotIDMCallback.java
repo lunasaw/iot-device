@@ -1,6 +1,6 @@
 package io.github.lunasaw.iot.gateway.callback;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.aliyun.alink.dm.api.InitResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

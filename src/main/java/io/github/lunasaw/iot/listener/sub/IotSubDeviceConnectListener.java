@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson2.JSON;
+import com.luna.common.check.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -48,13 +50,14 @@ public class IotSubDeviceConnectListener implements ISubDeviceConnectListener {
         signMap.put(IotDeviceConstant.Device.PRODUCT_KEY, info.productKey);
         signMap.put(IotDeviceConstant.Device.DEVICE_NAME, info.deviceName);
         signMap.put(IotDeviceConstant.Device.CLIENT_ID, getClientId());
+        Assert.notNull(info.deviceSecret, "deviceSecret is null");
         return SignUtils.hmacSign(signMap, info.deviceSecret);
     }
 
     @Override
     public String getClientId() {
         // clientId，可为任意值
-        return RandomStrUtil.generateNonceStr();
+        return info.getDevId();
     }
 
     @Override
@@ -64,11 +67,11 @@ public class IotSubDeviceConnectListener implements ISubDeviceConnectListener {
 
     @Override
     public void onConnectResult(boolean isSuccess, ISubDeviceChannel iSubDeviceChannel, AError aError) {
+        log.info("onConnectResult::isSuccess = {}, aError = {}", isSuccess, JSON.toJSONString(aError));
         // 添加结果
         if (isSuccess) {
             LinkKit.getInstance().getGateway().gatewaySubDeviceLogin(info, new IotSubDeviceActionListener(info));
         }
-        log.warn("onConnectResult::isSuccess = {}, iSubDeviceChannel = {}, aError = {}", isSuccess, iSubDeviceChannel, aError);
     }
 
     @Override
