@@ -24,13 +24,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
-public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHandler {
-
+public class SubDeviceGetConnectSendHandler extends AbstractConnectSendHandler {
 
     @Override
     public void onResponse(RequestSendDTO requestSendDTO) {
-        log.info("SubDeviceRegisterConnectSendHandler onResponse::requestSendDTO = {}", JSON.toJSONString(requestSendDTO));
-
         ResponseBO<Object> boResponseBO = getBoResponseBO(requestSendDTO.getAResponse());
         if (boResponseBO == null) {
             return;
@@ -48,17 +45,9 @@ public class SubDeviceRegisterConnectSendHandler extends AbstractConnectSendHand
         if (boResponseBO == null) {
             return false;
         }
-        if (!IotDeviceConstant.Method.THING_SUB_REGISTER.equals(boResponseBO.getMethod())) {
+        if (!IotDeviceConstant.Method.THING_TOPO_GET.equals(boResponseBO.getMethod())) {
             return false;
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        String data =
-            "{\"code\":200,\"data\":[{\"deviceSecret\":\"664f57b42bffcfbf3f76e7393475263d\",\"productKey\":\"k1f4kl0qmEU\",\"deviceName\":\"luna_camera\"}],\"id\":\"2\",\"message\":\"success\",\"method\":\"thing.topo.get\",\"version\":\"1.0\"}";
-
-        ResponseBO boResponseBO = JSON.parseObject(data, new TypeReference<ResponseBO<List<IotSubDeviceBO>>>() {});
-        System.out.println(JSON.toJSONString(boResponseBO));
     }
 }

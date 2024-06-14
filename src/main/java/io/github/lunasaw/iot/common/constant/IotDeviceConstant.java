@@ -25,5 +25,7 @@ public interface IotDeviceConstant {
 
     interface Method {
         String THING_SUB_REGISTER = "thing.sub.register";
+        String THING_TOPO_GET     = "thing.topo.get";
+
     }
 }
